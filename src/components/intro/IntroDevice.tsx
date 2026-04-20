@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 
 type Props = {
@@ -14,13 +14,19 @@ export function IntroDevice({ onComplete }: Props) {
   const descRef = useRef<HTMLDivElement>(null);
   const clickRef = useRef<HTMLImageElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const tl = gsap.timeline();
 
     gsap.set(rootRef.current, { y: -160 });
     gsap.set(headingRef.current, { y: 30, opacity: 0 });
     gsap.set(descRef.current, { y: 30, opacity: 0 });
-    gsap.set(clickRef.current, { y: 30, opacity: 0 });
+
+    gsap.set(clickRef.current, {
+      y: 30,
+      opacity: 0,
+      xPercent: -50,
+      yPercent: -50,
+    });
 
     tl.to(rootRef.current, {
       y: 40,
@@ -37,24 +43,36 @@ export function IntroDevice({ onComplete }: Props) {
         duration: 0.6,
         ease: "power2.out",
       })
-      .to(headingRef.current, {
-        y: 0,
-        opacity: 1,
-        duration: 0.2,
-        ease: "power3.out",
-      })
-      .to(descRef.current, {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        ease: "power3.out",
-      })
-      .to(clickRef.current, {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        ease: "power3.out",
-      });
+      .to(
+        headingRef.current,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.2,
+          ease: "power3.out",
+        },
+        "-=0.2",
+      )
+      .to(
+        descRef.current,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          ease: "power3.out",
+        },
+        "-=0.1",
+      )
+      .to(
+        clickRef.current,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          ease: "power3.out",
+        },
+        "-=0.2",
+      );
   }, []);
 
   const handleMouseEnter = () => {
