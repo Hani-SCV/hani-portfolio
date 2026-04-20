@@ -8,7 +8,6 @@ type Props = {
 export function IntroDevice({ onComplete }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
-  const crackRef = useRef<HTMLImageElement>(null);
   const transitionRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const descRef = useRef<HTMLDivElement>(null);
@@ -107,16 +106,6 @@ export function IntroDevice({ onComplete }: Props) {
       duration: 0.2,
       ease: "power2.in",
     })
-      .to(
-        crackRef.current,
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.1,
-          ease: "power2.out",
-        },
-        "<",
-      )
       .to(btnRef.current, {
         y: 4,
         scale: 0.95,
@@ -210,17 +199,8 @@ export function IntroDevice({ onComplete }: Props) {
               <img
                 src="/glass-texture.jpg"
                 className="h-full w-full object-cover opacity-30"
-                loading="lazy"
-                decoding="async"
               />
             </div>
-
-            {/* crack */}
-            <img
-              ref={crackRef}
-              src="/glass-crack.jpg"
-              className="pointer-events-none absolute inset-0 z-30 h-full w-full object-cover opacity-0"
-            />
           </div>
 
           {/* button */}
