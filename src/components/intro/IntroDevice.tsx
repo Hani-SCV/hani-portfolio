@@ -12,6 +12,8 @@ export function IntroDevice({ onComplete }: Props) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const descRef = useRef<HTMLDivElement>(null);
   const clickRef = useRef<HTMLImageElement>(null);
+  const crackRef = useRef<HTMLImageElement>(null);
+  const deviceRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const tl = gsap.timeline();
@@ -99,6 +101,7 @@ export function IntroDevice({ onComplete }: Props) {
       onComplete,
     });
 
+    // 버튼 클릭 모션
     tl.to(btnRef.current, {
       y: 8,
       scale: 0.95,
@@ -113,14 +116,37 @@ export function IntroDevice({ onComplete }: Props) {
         duration: 0.2,
         ease: "back.out(2)",
       })
+      // 디바이스 낙하
+      .to(deviceRef.current, {
+        y: 300,
+        rotation: 2,
+        duration: 0.6,
+        ease: "power2.in",
+      })
+      // 바닥 충격 (살짝 튕김)
+      .to(deviceRef.current, {
+        y: 260,
+        duration: 0.2,
+        ease: "power2.out",
+      })
+      // 스크린 crack 주기
       .to(
-        transitionRef.current,
+        crackRef.current,
         {
-          y: "0%",
-          duration: 0.8,
-          ease: "power4.inOut",
+          opacity: 1,
+          scale: 1,
+          duration: 0.1,
         },
-        "-=0.1",
+        "<",
+      )
+      // 전체 페이드 아웃
+      .to(
+        rootRef.current,
+        {
+          opacity: 0,
+          duration: 0.4,
+        },
+        "+=1",
       );
   };
 
@@ -133,14 +159,15 @@ export function IntroDevice({ onComplete }: Props) {
             <div className="absolute bottom-50 h-80 w-2.5 rounded-b-full bg-[#2A4BB3]" />
 
             <img src="/spring.svg" className="z-10 w-10" />
-
-            <div className="h-full w-2.5 rounded-t-full bg-[#2A4BB3]" />
           </div>
-
-          <div className="z-40 -mt-1 h-6 w-6 rounded-t-full bg-yellow-400" />
         </div>
         {/* device */}
-        <div className="relative flex h-120 w-100 flex-col items-center justify-center rounded-2xl bg-[#2A4BB3] p-4.5 shadow-xl">
+        <div
+          ref={deviceRef}
+          className="relative flex h-120 w-100 flex-col items-center justify-center rounded-2xl bg-[#2A4BB3] p-4.5 shadow-xl"
+        >
+          <div className="absolute -top-15 h-full w-2.5 rounded-t-full bg-[#2A4BB3]" />
+          <div className="absolute -top-5 -mt-1 h-6 w-6 rounded-t-full bg-yellow-400" />
           {/* top screws + dots */}
           <div className="pointer-events-none absolute top-2 right-0 left-0 z-40 flex items-center justify-between px-2">
             <div className="text-gray-400">
@@ -201,6 +228,13 @@ export function IntroDevice({ onComplete }: Props) {
                 className="h-full w-full object-cover opacity-30"
               />
             </div>
+
+            {/* crack */}
+            <img
+              ref={crackRef}
+              src="/glass-crack.jpg"
+              className="pointer-events-none absolute inset-0 z-30 h-full w-full object-cover opacity-0"
+            />
           </div>
 
           {/* button */}
