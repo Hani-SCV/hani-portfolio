@@ -79,7 +79,7 @@ export function IntroDevice({ onComplete }: Props) {
     gsap.to(btnRef.current, {
       y: 4,
       scale: 0.95,
-      boxShadow: "0 3px 0 #a16207",
+      boxShadow: "0 3px 0 #7A0C12",
       duration: 0.2,
       ease: "power2.out",
     });
@@ -89,7 +89,7 @@ export function IntroDevice({ onComplete }: Props) {
     gsap.to(btnRef.current, {
       y: 0,
       scale: 1,
-      boxShadow: "0 6px 0 #a16207",
+      boxShadow: "0 6px 0 #7A0C12",
       duration: 0.2,
       ease: "power2.out",
     });
@@ -111,20 +111,20 @@ export function IntroDevice({ onComplete }: Props) {
       .to(btnRef.current, {
         y: 4,
         scale: 0.95,
-        boxShadow: "0 3px 0 #a16207",
+        boxShadow: "0 3px 0 #7A0C12",
         duration: 0.2,
         ease: "back.out(2)",
       })
       // 디바이스 낙하
       .to(deviceRef.current, {
-        y: 300,
+        y: 150,
         rotation: 2,
         duration: 0.6,
         ease: "power2.in",
       })
       // 바닥 충격 (살짝 튕김)
       .to(deviceRef.current, {
-        y: 260,
+        y: 130,
         duration: 0.2,
         ease: "power2.out",
       })
@@ -153,19 +153,19 @@ export function IntroDevice({ onComplete }: Props) {
     <div ref={rootRef} className="relative flex flex-col items-center">
       {/* spring */}
       <div className="flex flex-1 flex-col items-center select-none">
-        <div className="relative flex h-50 flex-col items-center">
-          <div className="absolute bottom-50 h-80 w-2.5 rounded-b-full bg-[#2A4BB3]" />
+        <div className="relative flex h-40 flex-col items-center">
+          <div className="absolute bottom-50 h-40 w-2.5 rounded-b-full bg-[#D9D9D9]" />
 
-          <img src="/spring.svg" className="z-10 w-10" />
+          <img src="/spring.svg" className="w-10 -translate-y-12" />
         </div>
       </div>
       {/* device */}
       <div
         ref={deviceRef}
-        className="relative flex h-120 w-100 flex-col items-center justify-center rounded-2xl bg-[#2A4BB3] p-4.5 shadow-xl"
+        className="relative flex h-120 w-100 flex-col items-center justify-center rounded-2xl bg-[#D9D9D9] p-4.5 shadow-xl"
       >
-        <div className="absolute -top-15 h-full w-2.5 rounded-t-full bg-[#2A4BB3]" />
-        <div className="absolute -top-5 -mt-1 h-6 w-6 rounded-t-full bg-yellow-400" />
+        <div className="absolute -top-18 h-full w-2.5 rounded-t-full bg-[#D9D9D9]" />
+        <div className="absolute -top-5 -mt-1 h-6 w-6 rounded-t-full bg-[#C1121F]" />
         {/* top screws + dots */}
         <div className="pointer-events-none absolute top-2 right-0 left-0 z-40 flex items-center justify-between px-2">
           <div className="text-gray-400">
@@ -179,10 +179,16 @@ export function IntroDevice({ onComplete }: Props) {
             </svg>
           </div>
 
-          <img
-            src="/device-dots.png"
-            alt=""
-            className="z-40 h-4 object-contain"
+          <div
+            className="z-40 h-5 w-40 translate-x-11 bg-[#C1121F]"
+            style={{
+              WebkitMaskImage: "url(/device-dots.png)",
+              WebkitMaskRepeat: "no-repeat",
+              WebkitMaskSize: "contain",
+              maskImage: "url(/device-dots.png)",
+              maskRepeat: "no-repeat",
+              maskSize: "contain",
+            }}
           />
 
           <div className="text-gray-400">
@@ -198,10 +204,10 @@ export function IntroDevice({ onComplete }: Props) {
         </div>
 
         {/* screen */}
-        <div className="absolute top-10 right-6 left-6 h-[60%] overflow-hidden rounded-md bg-black text-white">
-          <div className="h-full rounded-lg bg-black p-4">
-            <div className="mt-4 rounded-lg bg-[#1c1c25] p-[1.0em] tracking-[0.08em] text-[#c4c4c4] uppercase">
-              <div className="relative overflow-hidden rounded-md bg-[#25252f] p-[1.5em]">
+        <div className="absolute top-10 right-6 left-6 h-[60%] overflow-hidden rounded-md bg-[#1C1C1C] text-[#EAEAEA]">
+          <div className="h-full rounded-lg bg-[#1C1C1C] p-4">
+            <div className="mt-4 rounded-lg bg-[#2A2A2A] p-[1.0em] tracking-[0.08em] text-[#BFBFBF] uppercase">
+              <div className="relative overflow-hidden rounded-md bg-[#3A3A3A] p-[1.5em]">
                 <div>
                   <h1
                     ref={headingRef}
@@ -236,13 +242,13 @@ export function IntroDevice({ onComplete }: Props) {
         </div>
 
         {/* button */}
-        <div className="absolute bottom-12 flex h-24 w-24 items-center justify-center overflow-visible rounded-full bg-[#1f367e]">
+        <div className="absolute bottom-12 flex h-24 w-24 items-center justify-center overflow-visible rounded-full bg-[#c1c1c1]">
           <button
             ref={btnRef}
             onClick={handleClick}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-yellow-500 shadow-[0_6px_0_#a16207] active:translate-y-1"
+            className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-[#C1121F] shadow-[0_6px_0_#7A0C12] active:translate-y-1"
           >
             <img src="/start.svg" alt="ON button icon" className="h-6 w-6" />
           </button>
@@ -267,10 +273,16 @@ export function IntroDevice({ onComplete }: Props) {
             </svg>
           </div>
 
-          <img
-            src="/device-dots.png"
-            alt=""
-            className="z-40 h-4 object-contain"
+          <div
+            className="z-40 h-5 w-40 translate-x-12 bg-[#C1121F]"
+            style={{
+              WebkitMaskImage: "url(/device-dots.png)",
+              WebkitMaskRepeat: "no-repeat",
+              WebkitMaskSize: "contain",
+              maskImage: "url(/device-dots.png)",
+              maskRepeat: "no-repeat",
+              maskSize: "contain",
+            }}
           />
 
           <div className="text-gray-400">
