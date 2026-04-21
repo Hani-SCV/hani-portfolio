@@ -206,7 +206,7 @@ export function IntroDevice({ onComplete }: Props) {
         {/* screen */}
         <div className="absolute top-10 right-6 left-6 h-[60%] overflow-hidden rounded-md bg-[#1C1C1C] text-[#EAEAEA]">
           <div className="h-full rounded-lg bg-[#1C1C1C] p-4">
-            <div className="mt-4 rounded-lg bg-[#2A2A2A] p-[1.0em] tracking-[0.08em] text-[#BFBFBF] uppercase">
+            <div className="mt-8 rounded-lg bg-[#2A2A2A] p-[1.0em] tracking-[0.08em] text-[#BFBFBF] uppercase">
               <div className="relative overflow-hidden rounded-md bg-[#3A3A3A] p-[1.5em]">
                 <div>
                   <h1
