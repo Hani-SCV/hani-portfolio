@@ -14,6 +14,7 @@ export default function DragSlider() {
 
   useLayoutEffect(() => {
     gsap.set(btnRef.current, {
+      y: -6,
       boxShadow: "0 6px 0 #7A0C12",
     });
   }, []);
