@@ -17,8 +17,8 @@ export default function ToggleList() {
       {JOBS.map((text, i) => (
         <div
           key={text}
-          className="flex h-20 items-center justify-between rounded-lg bg-[#D9D9D9] px-3 py-2"
-          onClick={() => setSelected(i)} // 카드 클릭도 선택되게
+          className="flex h-20 items-center justify-between rounded-lg bg-[#D9D9D9] px-3 py-2 hover:bg-[#CFCFCF]"
+          onClick={() => setSelected(i)}
         >
           <div className="flex items-center gap-3">
             <Toggle active={selected === i} />
@@ -26,8 +26,8 @@ export default function ToggleList() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <div className="h-2 w-2 rounded-full bg-[#2F3E77]" />
-            <div className="h-2 w-2 rounded-full bg-[#2F3E77]" />
+            <div className="h-2 w-2 rounded-full bg-gray-400" />
+            <div className="h-2 w-2 rounded-full bg-gray-400" />
           </div>
         </div>
       ))}
@@ -86,7 +86,9 @@ export function LeftPanel() {
       </div>
 
       {/* contact */}
-      <DragSlider />
+      <div className="bg-[#c1c1c1] px-3 py-3">
+        <DragSlider />
+      </div>
 
       <div className="flex flex-col gap-3 bg-[#c1c1c1] p-3">
         <div className="mb-2">
