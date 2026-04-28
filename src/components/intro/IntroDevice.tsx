@@ -13,6 +13,7 @@ export function IntroDevice({ onComplete }: Props) {
   const clickRef = useRef<HTMLImageElement>(null);
   const crackRef = useRef<HTMLImageElement>(null);
   const deviceRef = useRef<HTMLDivElement>(null);
+  const textScreenRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const tl = gsap.timeline();
@@ -20,6 +21,9 @@ export function IntroDevice({ onComplete }: Props) {
     gsap.set(rootRef.current, { y: -160 });
     gsap.set(headingRef.current, { y: 30, opacity: 0 });
     gsap.set(descRef.current, { y: 30, opacity: 0 });
+    gsap.set(btnRef.current, {
+      boxShadow: "0 8px 0 #7A0C12",
+    });
 
     gsap.set(clickRef.current, {
       y: 30,
@@ -77,9 +81,9 @@ export function IntroDevice({ onComplete }: Props) {
 
   const handleMouseEnter = () => {
     gsap.to(btnRef.current, {
-      y: 4,
+      y: 6,
       scale: 0.95,
-      boxShadow: "0 3px 0 #7A0C12",
+      boxShadow: "0 1px 0 #7A0C12",
       duration: 0.2,
       ease: "power2.out",
     });
@@ -89,7 +93,7 @@ export function IntroDevice({ onComplete }: Props) {
     gsap.to(btnRef.current, {
       y: 0,
       scale: 1,
-      boxShadow: "0 6px 0 #7A0C12",
+      boxShadow: "0 8px 0 #7A0C12",
       duration: 0.2,
       ease: "power2.out",
     });
@@ -100,34 +104,27 @@ export function IntroDevice({ onComplete }: Props) {
       onComplete,
     });
 
-    // 버튼 클릭 모션
-    tl.to(btnRef.current, {
-      y: 8,
-      scale: 0.95,
-      boxShadow: "0 0 0 rgba(0,0,0,0)",
-      duration: 0.2,
+    tl.to(deviceRef.current, {
+      y: 150,
+      rotation: 2,
+      duration: 0.6,
       ease: "power2.in",
     })
-      .to(btnRef.current, {
-        y: 4,
-        scale: 0.95,
-        boxShadow: "0 3px 0 #7A0C12",
-        duration: 0.2,
-        ease: "back.out(2)",
-      })
-      // 디바이스 낙하
-      .to(deviceRef.current, {
-        y: 150,
-        rotation: 2,
-        duration: 0.6,
-        ease: "power2.in",
-      })
       // 바닥 충격 (살짝 튕김)
       .to(deviceRef.current, {
         y: 130,
         duration: 0.2,
         ease: "power2.out",
       })
+      .to(
+        textScreenRef.current,
+        {
+          opacity: 0,
+          scale: 1,
+          duration: 0.1,
+        },
+        "<",
+      )
       // 스크린 crack 주기
       .to(
         crackRef.current,
@@ -147,6 +144,26 @@ export function IntroDevice({ onComplete }: Props) {
         },
         "+=0.5",
       );
+  };
+
+  const handleMouseDown = () => {
+    gsap.to(btnRef.current, {
+      y: 8,
+      scale: 0.95,
+      boxShadow: "inset 0 10px 4px #7A0C12",
+      duration: 0.15,
+      ease: "power2.out",
+    });
+  };
+
+  const handleRelease = () => {
+    gsap.to(btnRef.current, {
+      y: 4,
+      scale: 0.95,
+      boxShadow: "0 3px 0 #7A0C12",
+      duration: 0.2,
+      ease: "back.out(2)",
+    });
   };
 
   return (
@@ -205,7 +222,10 @@ export function IntroDevice({ onComplete }: Props) {
 
         {/* screen */}
         <div className="absolute top-10 right-6 left-6 h-[60%] overflow-hidden rounded-md bg-[#1C1C1C] text-[#EAEAEA]">
-          <div className="h-full rounded-lg bg-[#1C1C1C] p-4">
+          <div
+            ref={textScreenRef}
+            className="h-full rounded-lg bg-[#1C1C1C] p-4"
+          >
             <div className="mt-8 rounded-lg bg-[#2A2A2A] p-[1.0em] tracking-[0.08em] text-[#BFBFBF] uppercase">
               <div className="relative overflow-hidden rounded-md bg-[#3A3A3A] p-[1.5em]">
                 <div>
@@ -236,7 +256,7 @@ export function IntroDevice({ onComplete }: Props) {
           {/* crack */}
           <img
             ref={crackRef}
-            src="/glass-crack.jpg"
+            src="/crack-404.png"
             className="pointer-events-none absolute inset-0 z-30 h-full w-full object-cover opacity-0"
           />
         </div>
@@ -246,13 +266,14 @@ export function IntroDevice({ onComplete }: Props) {
           <button
             ref={btnRef}
             onClick={handleClick}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleRelease}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-[#C1121F] shadow-[0_6px_0_#7A0C12] active:translate-y-1"
+            className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-[#C1121F]"
           >
             <img src="/start.svg" alt="ON button icon" className="h-6 w-6" />
           </button>
-
           <img
             ref={clickRef}
             src="/click.svg"
