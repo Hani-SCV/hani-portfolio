@@ -1,7 +1,25 @@
 @import "tailwindcss";
 
+:root {
+  font-family: greycliff-cf, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  -webkit-text-size-adjust: 100%;
+}
+
+@layer base {
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+}
+
 body {
   margin: 0;
   background: black;
   color: white;
+  font-size: 0.9vw;
 }
