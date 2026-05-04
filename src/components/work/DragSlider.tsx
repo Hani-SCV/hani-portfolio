@@ -72,8 +72,18 @@ export default function DragSlider() {
     gsap.to(btnRef.current, {
       y: 0,
       scale: 1,
-      boxShadow: "inset 0 8px 2px #7A0C12",
+      boxShadow: "0 -2px 0 #7A0C12, inset 0 6px 1px #7A0C12",
       duration: 0.1,
+      ease: "power2.out",
+    });
+  };
+
+  const onBtnMouseUp = () => {
+    gsap.to(btnRef.current, {
+      y: 0,
+      scale: 1,
+      boxShadow: "0 1px 0 #7A0C12",
+      duration: 0.18,
       ease: "power2.out",
     });
   };
@@ -101,6 +111,7 @@ export default function DragSlider() {
           onMouseDown={onBtnMouseDown}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
+          onMouseUp={onBtnMouseUp}
           className="h-12 rounded-md bg-[#C1121F] px-4 font-bold text-black"
         >
           CONTACT ME
