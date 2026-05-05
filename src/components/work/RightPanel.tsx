@@ -88,7 +88,7 @@ export function RightPanel() {
   };
 
   return (
-    <div className="relative flex flex-col gap-4 rounded-2xl bg-[#25252f] p-3">
+    <div className="relative flex flex-col gap-4 rounded-2xl border border-[#25252f] bg-[#25252f] p-3 shadow-[0_0_16px_#101016] hover:border-[rgba(196,196,196,0.7)]">
       {open && <LinkPopup onClose={() => setOpen(false)} />}
 
       <div className="flex h-20 items-center rounded-xl bg-[#1C1C25] px-4">
@@ -104,6 +104,8 @@ export function RightPanel() {
             key={i}
             className="relative aspect-square rounded-xl bg-[#1C1C25]"
           >
+            <div className="absolute top-2 left-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
+            <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
             <button
               className="project-btn absolute top-1/2 left-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#25252F]"
               onClick={() => setOpen(true)}
@@ -117,6 +119,8 @@ export function RightPanel() {
                 className="absolute top-1/2 left-1/2 w-10 -translate-x-1/2 -translate-y-1/2"
               />
             </button>
+            <div className="absolute bottom-2 left-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
+            <div className="absolute right-2 bottom-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
           </div>
         ))}
       </div>
@@ -127,25 +131,28 @@ export function RightPanel() {
           className="absolute inset-0 flex items-center justify-center rounded-xl bg-[#1C1C25] opacity-0"
         >
           <div className="w-full max-w-lg text-center">
-            <div className="mb-6 text-lg">Stack</div>
+            <div className="text-lg">Stack</div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center justify-center gap-2">
-                <img src="/stack-icon/vite-icon.png" className="w-15" />
-                <span className="text-sm font-semibold">Vite</span>
-              </div>
-              <div className="flex items-center justify-center gap-2">
-                <img src="/stack-icon/ts-icon.png" className="w-10" />
-                <span className="text-sm font-semibold">Ts</span>
-              </div>
-              <div className="flex items-center justify-center gap-2">
-                <img src="/stack-icon/react-icon.png" className="w-10" />
-                <span className="text-sm font-semibold">React</span>
-              </div>
-              <div className="flex items-center justify-center gap-2">
-                <img src="/stack-icon/gsap-icon.png" className="w-12" />
-                <span className="text-sm font-semibold">Gsap</span>
-              </div>
+            <div className="grid grid-cols-2 gap-6">
+              {[
+                { src: "/stack-icon/vite-icon.png", label: "Vite" },
+                { src: "/stack-icon/ts-icon.png", label: "Ts" },
+                { src: "/stack-icon/react-icon.png", label: "React" },
+                { src: "/stack-icon/gsap-icon.png", label: "Gsap" },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="flex flex-col items-center justify-center gap-2"
+                >
+                  <div className="flex h-12 w-12 items-center justify-center">
+                    <img
+                      src={item.src}
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  </div>
+                  <span className="text-sm font-semibold">{item.label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
