@@ -4,14 +4,35 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { LinkPopup } from "./LinkPopup";
 
 const projects = [
-  { icon: "/web-backend.svg" },
-  { icon: "/chrome-popup.png" },
-  { icon: "/erp.png" },
-  { icon: "/todo.png" },
-  { icon: "/portfolio.png" },
+  {
+    icon: "/web-backend.svg",
+    title: "웹 백엔드 가이드",
+    desc: "Notion API, Docusaurus, Netlify를 기반으로 한 웹 백엔드 가이드입니다.",
+  },
+  {
+    icon: "/chrome-popup.png",
+    title: "크롬 확장 프로그램",
+    desc: "크롬에서 작은 모바일 형태의 팝업 창으로 웹사이트를 빠르게 열 수 있는 확장 프로그램입니다.",
+  },
+  {
+    icon: "/erp.png",
+    title: "유치원 ERP",
+    desc: "유치원 관리에 필요한 전사적 자원관리,물적 자원을 효율적으로 관리 하여 경쟁력을 강화시켜주는 통합관리시스템.",
+  },
+  {
+    icon: "/todo.png",
+    title: "Todo",
+    desc: "Node.js, Express, MongoDB를 기반으로 한 간단한 TO-DO 프로젝트.",
+  },
+  {
+    icon: "/portfolio.png",
+    title: "포트폴리오",
+    desc: "React, Tailwind CSS, GSAP 기반 인터랙티브 포트폴리오",
+  },
 ];
+
 export function RightPanel() {
-  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<(typeof projects)[0] | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -89,7 +110,9 @@ export function RightPanel() {
 
   return (
     <div className="relative flex flex-col gap-4 rounded-2xl border border-[#25252f] bg-[#25252f] p-3 shadow-[0_0_16px_#101016] hover:border-[rgba(196,196,196,0.7)]">
-      {open && <LinkPopup onClose={() => setOpen(false)} />}
+      {selected && (
+        <LinkPopup data={selected} onClose={() => setSelected(null)} />
+      )}
 
       <div className="flex h-20 items-center rounded-xl bg-[#1C1C25] px-4">
         <PanelsTopLeft />
@@ -108,7 +131,7 @@ export function RightPanel() {
             <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
             <button
               className="project-btn absolute top-1/2 left-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#25252F]"
-              onClick={() => setOpen(true)}
+              onClick={() => setSelected(item)}
               onMouseDown={(e) => handleBtn("down", e.currentTarget)}
               onMouseUp={(e) => handleBtn("up", e.currentTarget)}
               onMouseEnter={(e) => handleBtn("enter", e.currentTarget)}
@@ -130,10 +153,10 @@ export function RightPanel() {
           ref={nextRef}
           className="absolute inset-0 flex items-center justify-center rounded-xl bg-[#1C1C25] opacity-0"
         >
-          <div className="w-full max-w-lg text-center">
+          <div className="w-full max-w-lg pt-2 text-center">
             <div className="text-lg">Stack</div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-4">
               {[
                 { src: "/stack-icon/vite-icon.png", label: "Vite" },
                 { src: "/stack-icon/ts-icon.png", label: "Ts" },
@@ -144,7 +167,7 @@ export function RightPanel() {
                   key={i}
                   className="flex flex-col items-center justify-center gap-2"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center">
+                  <div className="flex h-10 w-10 items-center justify-center">
                     <img
                       src={item.src}
                       className="max-h-full max-w-full object-contain"
