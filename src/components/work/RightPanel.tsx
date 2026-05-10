@@ -1,4 +1,4 @@
-import { PanelsTopLeft } from "lucide-react";
+import { Info, Lock, PanelsTopLeft } from "lucide-react";
 import gsap from "gsap";
 import { useLayoutEffect, useRef, useState } from "react";
 import { LinkPopup } from "./LinkPopup";
@@ -31,13 +31,11 @@ const projects = [
   },
 ];
 
-export function RightPanel() {
+function RightPanel() {
   const [selected, setSelected] = useState<(typeof projects)[0] | null>(null);
-
-  const containerRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
-
   const removedSet = useRef(new Set<number>());
 
   const animate = (el: HTMLElement | null, vars: gsap.TweenVars) => {
@@ -52,8 +50,10 @@ export function RightPanel() {
     });
   }, []);
 
-  // 버튼 인터랙션 통합
-  const handleBtn = (type: string, el: HTMLElement) => {
+  const handleBtn = (
+    type: "down" | "up" | "enter" | "leave",
+    el: HTMLElement,
+  ) => {
     const map = {
       down: {
         y: 8,
@@ -67,7 +67,6 @@ export function RightPanel() {
     animate(el, map[type]);
   };
 
-  // screws 클릭
   const handleScrewClick = (index: number, el: HTMLElement) => {
     if (removedSet.current.has(index)) return;
 
@@ -109,7 +108,7 @@ export function RightPanel() {
   };
 
   return (
-    <div className="relative flex flex-col gap-4 rounded-2xl border border-[#25252f] bg-[#25252f] p-3 shadow-[0_0_16px_#101016] hover:border-[rgba(196,196,196,0.7)]">
+    <div className="flex h-full flex-col gap-4 p-3">
       {selected && (
         <LinkPopup data={selected} onClose={() => setSelected(null)} />
       )}
@@ -203,6 +202,161 @@ export function RightPanel() {
             </div>
           ))}
         </div>
+      </div>
+    </div>
+  );
+}
+
+export function DoorPanel() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const leftDoorRef = useRef<HTMLDivElement>(null);
+  const rightDoorRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const animate = (el: HTMLElement, vars: gsap.TweenVars) => {
+    gsap.to(el, vars);
+  };
+
+  const handleOpen = () => {
+    gsap
+      .timeline({
+        onComplete: () => {
+          gsap.set(rootRef.current, { display: "none" });
+        },
+      })
+
+      .to(
+        [btnRef.current, infoRef.current],
+        {
+          scale: 0.5,
+          opacity: 0,
+          duration: 0.3,
+          ease: "power2.in",
+        },
+        0,
+      )
+
+      .to(
+        leftDoorRef.current,
+        {
+          xPercent: -100,
+          duration: 1,
+          ease: "power3.out",
+        },
+        0.05,
+      )
+      .to(
+        rightDoorRef.current,
+        {
+          xPercent: 100,
+          duration: 1,
+          ease: "power3.out",
+        },
+        0.05,
+      )
+
+      .to(rootRef.current, {
+        opacity: 0,
+        duration: 0.3,
+      });
+  };
+
+  return (
+    <div ref={rootRef} className="relative h-full overflow-hidden rounded-2xl">
+      <div
+        ref={leftDoorRef}
+        className="absolute inset-y-0 left-0 flex w-1/2 border-r-2 border-[#101016] bg-[#1C1C25] p-4"
+      >
+        <div
+          className="flex w-full rounded-l-md p-2 opacity-20"
+          style={{
+            background:
+              "repeating-linear-gradient(45deg, #e5e5e5 0, #e5e5e5 1px, transparent 0, transparent 50%)",
+            backgroundSize: "10px 10px",
+          }}
+        >
+          <div className="h-2 w-2 rounded-full bg-[#3B3B44]" />
+        </div>
+      </div>
+
+      <div
+        ref={rightDoorRef}
+        className="absolute inset-y-0 right-0 flex w-1/2 justify-end border-l-2 border-[#25252f] bg-[#1C1C25] p-4"
+      >
+        <div
+          className="flex w-full justify-end rounded-r-md p-2 opacity-20"
+          style={{
+            background:
+              "repeating-linear-gradient(45deg, #e5e5e5 0, #e5e5e5 1px, transparent 0, transparent 50%)",
+            backgroundSize: "10px 10px",
+          }}
+        >
+          <div className="h-2 w-2 rounded-full bg-[#3B3B44]" />
+        </div>
+      </div>
+
+      <div
+        ref={infoRef}
+        className="absolute top-4 right-4 z-20 flex h-10 items-center overflow-hidden rounded-md bg-[#25252f] px-3 text-xs text-[#E5E5E5]"
+      >
+        <div className="mr-2 whitespace-nowrap opacity-50">Click to open</div>
+
+        <Info size={16} className="shrink-0" />
+      </div>
+
+      <div className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
+        <button
+          ref={btnRef}
+          onClick={handleOpen}
+          onMouseEnter={(e) =>
+            animate(e.currentTarget, {
+              y: 6,
+              boxShadow: "none",
+              duration: 0.2,
+            })
+          }
+          onMouseDown={(e) =>
+            animate(e.currentTarget, {
+              y: 8,
+              boxShadow:
+                "0 -2px 0 #101016, inset 0 1600px 1600px rgba(0,0,0,0.1)",
+              duration: 0.15,
+              ease: "power2.in",
+            })
+          }
+          onMouseUp={(e) =>
+            animate(e.currentTarget, {
+              y: 4,
+              boxShadow: "0 3px 0 #101016",
+              duration: 0.18,
+              ease: "power3.out",
+            })
+          }
+          onMouseLeave={(e) =>
+            animate(e.currentTarget, {
+              y: 0,
+              boxShadow: "0 6px 0 #101016",
+              duration: 0.2,
+              ease: "back.out(2)",
+            })
+          }
+          className="pointer-events-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#1C1C25] shadow-[0_6px_0_#101016]"
+        >
+          <Lock size={28} className="text-[#ecb233]" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function RightSection() {
+  return (
+    <div className="relative rounded-2xl border border-[#25252f] bg-[#25252f] shadow-[0_0_16px_#101016] hover:border-[rgba(196,196,196,0.7)]">
+      <RightPanel />
+
+      <div className="pointer-events-none absolute inset-0 z-10">
+        <DoorPanel />
       </div>
     </div>
   );
