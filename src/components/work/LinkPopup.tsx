@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { X } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 export function LinkPopup({
   data,
@@ -24,6 +24,13 @@ export function LinkPopup({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
+
+  useLayoutEffect(() => {
+    if (!goBtnRef.current) return;
+    gsap.set(goBtnRef.current, {
+      boxShadow: "0 5px 0 #7A0C12",
+    });
+  }, []);
 
   return (
     <div
