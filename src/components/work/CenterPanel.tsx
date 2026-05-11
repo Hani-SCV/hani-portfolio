@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/refs */
 import gsap from "gsap";
 import { ArrowLeft, ArrowRight, Image, X } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
@@ -228,8 +229,91 @@ function GithubCard({ btnRef, onClick }: GithubCardProps) {
     </>
   );
 }
-
 function PortfolioSection() {
+  const images = [
+    "/portfolio/default.png",
+    "/portfolio/backend-guide-1.png",
+    "/portfolio/backend-guide-2.png",
+    "/portfolio/backend-guide-3.png",
+    "/portfolio/notion-1.png",
+    "/portfolio/notion-2.png",
+    "/portfolio/todo-1.png",
+    "/portfolio/todo-2.png",
+    "/portfolio/todo-3.png",
+    "/portfolio/chorm-popup-1.png",
+    "/portfolio/chorm-popup-2.png",
+    "/portfolio/erp.png",
+    "/portfolio/gsap-portfolio.png",
+  ];
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState<number | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const isDefaultImage = images[currentIndex] === "/portfolio/default.png";
+
+  const currentRef = useRef<HTMLImageElement>(null);
+  const prevRef = useRef<HTMLImageElement>(null);
+
+  const lastDirection = useRef<"next" | "prev">("next");
+
+  const changeSlide = (direction: "next" | "prev") => {
+    if (isAnimating) return;
+
+    lastDirection.current = direction;
+    setIsAnimating(true);
+
+    setPrevIndex(currentIndex);
+
+    setCurrentIndex((prev) => {
+      if (direction === "next") {
+        return prev === images.length - 1 ? 0 : prev + 1;
+      }
+
+      return prev === 0 ? images.length - 1 : prev - 1;
+    });
+  };
+
+  useLayoutEffect(() => {
+    if (prevIndex === null || !currentRef.current || !prevRef.current) {
+      return;
+    }
+
+    const isNext = lastDirection.current === "next";
+
+    const enterX = isNext ? "100%" : "-100%";
+    const exitX = isNext ? "-100%" : "100%";
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setPrevIndex(null);
+        setIsAnimating(false);
+      },
+    });
+
+    tl.set(currentRef.current, {
+      x: enterX,
+    });
+
+    tl.to(
+      prevRef.current,
+      {
+        x: exitX,
+        duration: 0.5,
+        ease: "power3.inOut",
+      },
+      0,
+    );
+
+    tl.to(
+      currentRef.current,
+      {
+        x: "0%",
+        duration: 0.5,
+        ease: "power3.inOut",
+      },
+      0,
+    );
+  }, [currentIndex, prevIndex]);
+
   return (
     <div className="relative flex h-full flex-col rounded-xl border border-[#25252f] bg-[#25252f] shadow-[0_0_16px_#101016] hover:border-[rgba(196,196,196,0.7)]">
       <div className="flex h-full w-full flex-col">
@@ -255,10 +339,14 @@ function PortfolioSection() {
           </div>
 
           <div className="ml-4 flex gap-2">
-            {[ArrowLeft, ArrowRight].map((Icon, i) => (
+            {[
+              { Icon: ArrowLeft, action: () => changeSlide("prev") },
+              { Icon: ArrowRight, action: () => changeSlide("next") },
+            ].map(({ Icon, action }, i) => (
               <button
                 key={i}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1c1c25] shadow-[0_4px_0_#101016]"
+                className="z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#1c1c25] shadow-[0_4px_0_#101016]"
+                onClick={action}
                 onMouseEnter={(e) =>
                   fastAnimate(e.currentTarget, {
                     y: 3,
@@ -297,16 +385,36 @@ function PortfolioSection() {
         </div>
 
         <div className="flex min-w-0 flex-1 items-center justify-center px-4 pt-5">
-          <div className="w-full max-w-full rounded-xl bg-[#101016] p-4 transition-all duration-300 lg:max-w-5xl xl:max-w-6xl">
+          <div className="w-full max-w-full rounded-xl bg-[#101016] p-4 lg:max-w-5xl xl:max-w-6xl">
             <div className="relative h-120 overflow-hidden bg-[#1C1C1C]">
+              {prevIndex !== null && (
+                <img
+                  ref={prevRef}
+                  src={images[prevIndex]}
+                  className={`absolute inset-0 h-full w-full ${
+                    images[prevIndex] === "/portfolio/default.png"
+                      ? "object-center"
+                      : "object-contain"
+                  }`}
+                />
+              )}
+
               <img
-                src="/glass-texture.jpg"
-                className="h-full w-full object-cover opacity-50"
+                ref={currentRef}
+                src={images[currentIndex]}
+                className={`absolute inset-0 h-full w-full ${
+                  isDefaultImage ? "object-center" : "object-contain"
+                }`}
               />
+
+              {isDefaultImage && (
+                <div className="animated-grain absolute inset-0 z-10" />
+              )}
             </div>
           </div>
         </div>
       </div>
+
       <div className="pointer-events-none absolute inset-0 z-10">
         <DoorPanel />
       </div>
