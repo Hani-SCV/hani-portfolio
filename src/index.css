@@ -23,3 +23,22 @@ body {
   color: white;
   font-size: 0.9vw;
 }
+
+@theme {
+  --background-image-stripe-pattern: linear-gradient(
+    45deg,
+    rgba(229, 229, 229, 0.2) 7.5%,
+    rgba(0, 0, 0, 0) 7.5%,
+    rgba(0, 0, 0, 0) 42.5%,
+    rgba(229, 229, 229, 0.2) 42.5%,
+    rgba(229, 229, 229, 0.2) 57.5%,
+    rgba(0, 0, 0, 0) 57.5%,
+    rgba(0, 0, 0, 0) 92.5%,
+    rgba(229, 229, 229, 0.2) 92.5%
+  );
+}
+
+.bg-stripe-fixed {
+  background-image: var(--background-image-stripe-pattern);
+  background-size: 10px 10px;
+}

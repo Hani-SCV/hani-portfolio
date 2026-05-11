@@ -71,14 +71,7 @@ export function DoorPanel({ lockSize = 20, btnSize = 60 }: DoorPanelProps) {
         ref={leftDoorRef}
         className="absolute inset-y-0 left-0 flex w-1/2 border-r-2 border-[#101016] bg-[#1C1C25] p-4"
       >
-        <div
-          className="flex w-full rounded-l-md p-2 opacity-20"
-          style={{
-            background:
-              "repeating-linear-gradient(45deg, #e5e5e5 0, #e5e5e5 1px, transparent 0, transparent 50%)",
-            backgroundSize: "10px 10px",
-          }}
-        >
+        <div className="bg-stripe-fixed flex w-full rounded-l-md p-2 opacity-20">
           <div className="h-2 w-2 rounded-full bg-[#3B3B44]" />
         </div>
       </div>
@@ -87,14 +80,7 @@ export function DoorPanel({ lockSize = 20, btnSize = 60 }: DoorPanelProps) {
         ref={rightDoorRef}
         className="absolute inset-y-0 right-0 flex w-1/2 justify-end border-l-2 border-[#25252f] bg-[#1C1C25] p-4"
       >
-        <div
-          className="flex w-full justify-end rounded-r-md p-2 opacity-20"
-          style={{
-            background:
-              "repeating-linear-gradient(45deg, #e5e5e5 0, #e5e5e5 1px, transparent 0, transparent 50%)",
-            backgroundSize: "10px 10px",
-          }}
-        >
+        <div className="bg-stripe-fixed flex w-full justify-end rounded-r-md p-2 opacity-20">
           <div className="h-2 w-2 rounded-full bg-[#3B3B44]" />
         </div>
       </div>
