@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { useLayoutEffect, useRef, useState } from "react";
 import { LinkPopup } from "./LinkPopup";
 import { DoorPanel } from "./DoorPanel";
+import { Screws } from "./Screws";
 
 const projects = [
   {
@@ -127,8 +128,7 @@ function RightPanel() {
             key={i}
             className="relative aspect-square rounded-xl bg-[#1C1C25]"
           >
-            <div className="absolute top-2 left-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
-            <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
+            <Screws />
             <button
               className="project-btn absolute top-1/2 left-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#25252F]"
               onClick={() => setSelected(item)}
@@ -142,8 +142,6 @@ function RightPanel() {
                 className="absolute top-1/2 left-1/2 w-10 -translate-x-1/2 -translate-y-1/2"
               />
             </button>
-            <div className="absolute bottom-2 left-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
-            <div className="absolute right-2 bottom-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
           </div>
         ))}
       </div>

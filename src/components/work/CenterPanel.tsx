@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, Image, X } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
 import { ColorButtons } from "./ColorButtons";
 import { DoorPanel } from "./DoorPanel";
+import { Screws } from "./Screws";
 
 type GithubCardProps = {
   btnRef: React.RefObject<HTMLButtonElement | null>;
@@ -13,17 +14,6 @@ const fastAnimate = (el: HTMLElement | null, vars: gsap.TweenVars) => {
   if (!el) return;
   gsap.to(el, vars);
 };
-
-function Screws() {
-  return (
-    <>
-      <div className="absolute top-2 left-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
-      <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
-      <div className="absolute bottom-2 left-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
-      <div className="absolute right-2 bottom-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
-    </>
-  );
-}
 
 function SectionWrapper({
   children,
@@ -192,9 +182,6 @@ function GithubCard({ btnRef, onClick }: GithubCardProps) {
 
   return (
     <>
-      <div className="absolute top-2 left-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
-      <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
-
       <button
         ref={btnRef}
         onClick={onClick}
@@ -238,9 +225,6 @@ function GithubCard({ btnRef, onClick }: GithubCardProps) {
           className="absolute top-1/2 left-1/2 w-10 -translate-x-1/2 -translate-y-1/2"
         />
       </button>
-
-      <div className="absolute bottom-2 left-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
-      <div className="absolute right-2 bottom-2 h-2 w-2 rounded-full bg-[#3B3B44]" />
     </>
   );
 }
