@@ -6,19 +6,24 @@ import { BarChart3 } from "lucide-react";
 import { Toggle } from "@/shared/Toggle";
 
 import { useState } from "react";
+import { Gameboy } from "./Gameboy";
+import { HardDisk } from "./HardDisk";
+import { Console } from "./Console";
+type ToggleListProps = {
+  selected: number;
+  onSelect: (index: number) => void;
+};
 
-const JOBS = ["Graphic & Webdesigner", "Motion Designer", "Webflow Expert"];
+const JOBS = ["GameBoy", "Hard Disk", "Console"];
 
-export default function ToggleList() {
-  const [selected, setSelected] = useState(0);
-
+function ToggleList({ selected, onSelect }: ToggleListProps) {
   return (
     <>
       {JOBS.map((text, i) => (
         <div
           key={text}
-          className="flex h-20 items-center justify-between rounded-lg bg-[#D9D9D9] px-3 py-2 hover:bg-[#CFCFCF]"
-          onClick={() => setSelected(i)}
+          className="flex h-20 cursor-pointer items-center justify-between rounded-lg bg-[#D9D9D9] px-3 py-2 hover:bg-[#CFCFCF]"
+          onClick={() => onSelect(i)}
         >
           <div className="flex items-center gap-3">
             <Toggle active={selected === i} />
@@ -34,11 +39,21 @@ export default function ToggleList() {
     </>
   );
 }
+
 export function LeftPanel() {
+  const [selected, setSelected] = useState(0);
+
   const ref = useRef<HTMLDivElement>(null);
+
+  const leftPupilRef = useRef<HTMLDivElement>(null);
+  const rightPupilRef = useRef<HTMLDivElement>(null);
+
+  const BASE_LEFT_X = 3;
+  const BASE_RIGHT_X = 3;
 
   useLayoutEffect(() => {
     if (!ref.current) return;
+
     gsap.fromTo(
       ref.current,
       { opacity: 0, y: 10 },
@@ -46,59 +61,113 @@ export function LeftPanel() {
     );
   }, []);
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+    const moveX = x * 8;
+    const moveY = y * 8;
+
+    gsap.to(leftPupilRef.current, {
+      x: BASE_LEFT_X + moveX,
+      y: moveY,
+      duration: 0.2,
+      ease: "power2.out",
+    });
+
+    gsap.to(rightPupilRef.current, {
+      x: BASE_RIGHT_X + moveX,
+      y: moveY,
+      duration: 0.2,
+      ease: "power2.out",
+    });
+  };
+
+  const handleMouseLeave = () => {
+    gsap.to([leftPupilRef.current, rightPupilRef.current], {
+      x: 0,
+      y: 0,
+      duration: 0.4,
+      ease: "power3.out",
+    });
+  };
+
+  const renderCharacter = () => {
+    switch (selected) {
+      case 0:
+        return (
+          <Gameboy leftPupilRef={leftPupilRef} rightPupilRef={rightPupilRef} />
+        );
+
+      case 1:
+        return (
+          <HardDisk leftPupilRef={leftPupilRef} rightPupilRef={rightPupilRef} />
+        );
+
+      case 2:
+        return (
+          <Console leftPupilRef={leftPupilRef} rightPupilRef={rightPupilRef} />
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <div
       ref={ref}
       className="flex flex-col gap-4 rounded-2xl bg-[#D9D9D9] p-4 pb-0"
     >
       <div className="flex w-full items-center justify-between">
-        {/* left: logo + name */}
         <div className="flex items-center gap-2">
-          {/* logo */}
           <div>
             <BarChart3 className="h-5 w-8 text-[#C1121F]" />
           </div>
 
-          {/* name */}
           <div className="text-xs font-bold tracking-wider text-[#3A3A3A] uppercase">
             Hani Dev
           </div>
         </div>
 
-        {/* right: dots */}
         <div className="flex items-center gap-1">
           <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
           <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
           <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
         </div>
       </div>
+
       <div className="mt-0.5 h-0.5 w-full bg-[#2F3E77]" />
-      {/* profile */}
-      <div className="relative flex h-60 items-center justify-center overflow-hidden rounded-xl bg-[#1C1C1C]">
-        {/* 배경 */}
+
+      <div
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="relative flex h-60 items-center justify-center overflow-hidden rounded-xl bg-[#1C1C1C]"
+      >
         <img
-          src="/glass-texture.jpg"
+          src="/textures/glass-texture.jpg"
           className="absolute inset-0 h-full w-full object-cover opacity-50"
         />
 
-        {/* 캐릭터 */}
-        {/* <img src="/testImg.png" className="relative z-10" /> */}
+        <div className="relative z-10">
+          {renderCharacter()}
+
+          <div className="animated-grain absolute inset-0 z-10" />
+        </div>
       </div>
 
-      {/* contact */}
       <div className="bg-[#c1c1c1] px-3 py-3">
         <DragSlider />
       </div>
 
       <div className="flex flex-col gap-3 bg-[#c1c1c1] p-3">
         <div className="mb-2">
-          {/* title */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              {/* icon */}
               <Settings className="h-6 w-6 text-[#2F3E77] opacity-40" />
 
-              {/* title */}
               <div className="flex items-center gap-2">
                 <div className="text-sm font-semibold whitespace-nowrap text-[#3A3A3A]">
                   Customizer
@@ -107,8 +176,10 @@ export function LeftPanel() {
             </div>
           </div>
         </div>
-        <ToggleList />
+
+        <ToggleList selected={selected} onSelect={setSelected} />
       </div>
+
       <div className="mt-auto flex h-12 w-full items-center justify-end rounded-t-lg bg-[#3A3A3A] px-4">
         <div className="flex gap-1">
           <div className="h-2 w-2 rounded-full bg-[#BFBFBF]" />
