@@ -7,27 +7,27 @@ import { Screws } from "./Screws";
 
 const projects = [
   {
-    icon: "/web-backend.svg",
+    icon: "/side-project-icons/web-backend.svg",
     title: "웹 백엔드 가이드",
     desc: "Notion API, Docusaurus, Netlify를 기반으로 한 웹 백엔드 가이드입니다.",
   },
   {
-    icon: "/chrome-popup.png",
+    icon: "/side-project-icons/chrome-popup.png",
     title: "크롬 확장 프로그램",
     desc: "크롬에서 작은 모바일 형태의 팝업 창으로 웹사이트를 빠르게 열 수 있는 확장 프로그램입니다.",
   },
   {
-    icon: "/erp.png",
+    icon: "/side-project-icons/erp.png",
     title: "유치원 ERP",
     desc: "유치원 관리에 필요한 전사적 자원관리,물적 자원을 효율적으로 관리 하여 경쟁력을 강화시켜주는 통합관리시스템.",
   },
   {
-    icon: "/todo.png",
+    icon: "/side-project-icons/todo.png",
     title: "Todo",
     desc: "Node.js, Express, MongoDB를 기반으로 한 간단한 TO-DO 프로젝트.",
   },
   {
-    icon: "/portfolio.png",
+    icon: "/side-project-icons/portfolio.png",
     title: "포트폴리오",
     desc: "React, Tailwind CSS, GSAP 기반 인터랙티브 포트폴리오",
   },
@@ -156,10 +156,10 @@ function RightPanel() {
 
             <div className="grid grid-cols-2 gap-4">
               {[
-                { src: "/stack-icon/vite-icon.png", label: "Vite" },
-                { src: "/stack-icon/ts-icon.png", label: "Ts" },
-                { src: "/stack-icon/react-icon.png", label: "React" },
-                { src: "/stack-icon/gsap-icon.png", label: "Gsap" },
+                { src: "/stack/vite.png", label: "Vite" },
+                { src: "/stack/ts.png", label: "Ts" },
+                { src: "/stack/react.png", label: "React" },
+                { src: "/stack/gsap.png", label: "Gsap" },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -179,7 +179,7 @@ function RightPanel() {
         </div>
         <div ref={rootRef} className="relative h-50 rounded-xl bg-[#1C1C25]">
           <img
-            src="/sound-dots.svg"
+            src="/stack/sound-dots.svg"
             className="absolute top-1/2 left-1/2 w-30 -translate-x-1/2 -translate-y-1/2"
           />
           {[0, 1, 2, 3].map((i) => (

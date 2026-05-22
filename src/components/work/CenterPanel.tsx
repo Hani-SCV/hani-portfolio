@@ -80,7 +80,7 @@ function GithubPopup({ onClose }: { onClose: () => void }) {
         <div className="flex w-full max-w-md flex-col items-center gap-6">
           <div className="w-full rounded-xl bg-[#1C1C25] p-6">
             <div className="flex h-6 w-50 flex-col items-center justify-center gap-2">
-              <img src="/gitHub.png" className="w-10 pt-9" />
+              <img src="/textures/gitHub.png" className="w-10 pt-9" />
               <div className="text-sm font-semibold">View GitHub</div>
 
               <div className="absolute -top-3 -right-3 flex h-12 w-12 items-center justify-center overflow-visible rounded-full bg-[#25252F]">
@@ -221,7 +221,7 @@ function GithubCard({ btnRef, onClick }: GithubCardProps) {
         className="relative h-20 w-20 rounded-full bg-[#C1121F]"
       >
         <img
-          src="/gitHub.png"
+          src="/textures/gitHub.png"
           alt=""
           className="absolute top-1/2 left-1/2 w-10 -translate-x-1/2 -translate-y-1/2"
         />
@@ -322,20 +322,6 @@ function PortfolioSection() {
             <Image className="mr-3" />
 
             <div>PORTFOLIO</div>
-
-            <div className="flex flex-1 items-center justify-end">
-              <div
-                className="h-6 w-14 bg-[#C1121F]"
-                style={{
-                  WebkitMaskImage: "url(/device-dots.png)",
-                  WebkitMaskRepeat: "no-repeat",
-                  WebkitMaskSize: "contain",
-                  maskImage: "url(/device-dots.png)",
-                  maskRepeat: "no-repeat",
-                  maskSize: "contain",
-                }}
-              />
-            </div>
           </div>
 
           <div className="ml-4 flex gap-2">

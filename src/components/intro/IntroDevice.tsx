@@ -173,7 +173,7 @@ export function IntroDevice({ onComplete }: Props) {
         <div className="relative flex h-40 flex-col items-center">
           <div className="absolute bottom-50 h-40 w-2.5 rounded-b-full bg-[#D9D9D9]" />
 
-          <img src="/spring.svg" className="w-10 -translate-y-12" />
+          <img src="/device/spring.svg" className="w-10 -translate-y-12" />
         </div>
       </div>
       {/* device */}
@@ -199,10 +199,10 @@ export function IntroDevice({ onComplete }: Props) {
           <div
             className="z-40 h-5 w-40 translate-x-11 bg-[#C1121F]"
             style={{
-              WebkitMaskImage: "url(/device-dots.png)",
+              WebkitMaskImage: "url(/device/device-dots.png)",
               WebkitMaskRepeat: "no-repeat",
               WebkitMaskSize: "contain",
-              maskImage: "url(/device-dots.png)",
+              maskImage: "url(/device/device-dots.png)",
               maskRepeat: "no-repeat",
               maskSize: "contain",
             }}
@@ -248,7 +248,7 @@ export function IntroDevice({ onComplete }: Props) {
           {/* texture */}
           <div className="pointer-events-none absolute inset-0 z-20">
             <img
-              src="/glass-texture.jpg"
+              src="/textures/glass-texture.jpg"
               className="h-full w-full object-cover opacity-30"
             />
           </div>
@@ -256,7 +256,7 @@ export function IntroDevice({ onComplete }: Props) {
           {/* crack */}
           <img
             ref={crackRef}
-            src="/crack-404.png"
+            src="/device/crack-404.png"
             className="pointer-events-none absolute inset-0 z-30 h-full w-full object-cover opacity-0"
           />
         </div>
@@ -272,11 +272,15 @@ export function IntroDevice({ onComplete }: Props) {
             onMouseLeave={handleMouseLeave}
             className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-[#C1121F]"
           >
-            <img src="/start.svg" alt="ON button icon" className="h-6 w-6" />
+            <img
+              src="/device/start.svg"
+              alt="ON button icon"
+              className="h-6 w-6"
+            />
           </button>
           <img
             ref={clickRef}
-            src="/click.svg"
+            src="/device/click.svg"
             className="pointer-events-none absolute top-1/2 left-1/2 z-20 w-60 max-w-none -translate-x-1/2 -translate-y-1/2"
           />
         </div>
@@ -297,10 +301,10 @@ export function IntroDevice({ onComplete }: Props) {
           <div
             className="z-40 h-5 w-40 translate-x-12 bg-[#C1121F]"
             style={{
-              WebkitMaskImage: "url(/device-dots.png)",
+              WebkitMaskImage: "url(/device/device-dots.png)",
               WebkitMaskRepeat: "no-repeat",
               WebkitMaskSize: "contain",
-              maskImage: "url(/device-dots.png)",
+              maskImage: "url(/device/device-dots.png)",
               maskRepeat: "no-repeat",
               maskSize: "contain",
             }}
