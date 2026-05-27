@@ -5,15 +5,11 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { ColorButtons } from "./ColorButtons";
 import { DoorPanel } from "./DoorPanel";
 import { Screws } from "./Screws";
+import { animate } from "@/shared/animate";
 
 type GithubCardProps = {
   btnRef: React.RefObject<HTMLButtonElement | null>;
   onClick: () => void;
-};
-
-const fastAnimate = (el: HTMLElement | null, vars: gsap.TweenVars) => {
-  if (!el) return;
-  gsap.to(el, vars);
 };
 
 function SectionWrapper({
@@ -79,7 +75,7 @@ function GithubPopup({ onClose }: { onClose: () => void }) {
       <div className="flex items-center justify-center rounded-xl bg-[#1C1C25]">
         <div className="flex w-full max-w-md flex-col items-center gap-6">
           <div className="w-full rounded-xl bg-[#1C1C25] p-6">
-            <div className="flex h-6 w-50 flex-col items-center justify-center gap-2">
+            <div className="flex h-6 min-w-40 flex-col items-center justify-center gap-2">
               <img src="/textures/gitHub.png" className="w-10 pt-9" />
               <div className="text-sm font-semibold">View GitHub</div>
 
@@ -88,7 +84,7 @@ function GithubPopup({ onClose }: { onClose: () => void }) {
                   <button
                     onClick={onClose}
                     onMouseEnter={(e) =>
-                      fastAnimate(e.currentTarget, {
+                      animate(e.currentTarget, {
                         y: 6,
                         rotation: 90,
                         duration: 0.15,
@@ -96,14 +92,14 @@ function GithubPopup({ onClose }: { onClose: () => void }) {
                       })
                     }
                     onMouseDown={(e) =>
-                      fastAnimate(e.currentTarget, {
+                      animate(e.currentTarget, {
                         y: 10,
                         duration: 0.15,
                         ease: "power2.in",
                       })
                     }
                     onMouseUp={(e) =>
-                      fastAnimate(e.currentTarget, {
+                      animate(e.currentTarget, {
                         y: 0,
                         boxShadow: "none",
                         duration: 0.2,
@@ -111,7 +107,7 @@ function GithubPopup({ onClose }: { onClose: () => void }) {
                       })
                     }
                     onMouseLeave={(e) =>
-                      fastAnimate(e.currentTarget, {
+                      animate(e.currentTarget, {
                         y: 0,
                         rotation: 0,
                         boxShadow: "none",
@@ -130,15 +126,18 @@ function GithubPopup({ onClose }: { onClose: () => void }) {
           <div className="flex h-14 w-14 items-center justify-center overflow-visible rounded-full bg-[#1C1C25] pb-2">
             <a
               ref={goBtnRef}
+              href="https://github.com/Hani-SCV"
+              target="_blank"
+              rel="noopener noreferrer"
               onMouseEnter={(e) =>
-                fastAnimate(e.currentTarget, {
+                animate(e.currentTarget, {
                   y: 6,
                   boxShadow: "none",
                   duration: 0.2,
                 })
               }
               onMouseDown={(e) =>
-                fastAnimate(e.currentTarget, {
+                animate(e.currentTarget, {
                   y: 8,
                   boxShadow: "0 -2px 0 #7A0C12, inset 0 5px 1px #7A0C12",
                   duration: 0.15,
@@ -146,7 +145,7 @@ function GithubPopup({ onClose }: { onClose: () => void }) {
                 })
               }
               onMouseUp={(e) =>
-                fastAnimate(e.currentTarget, {
+                animate(e.currentTarget, {
                   y: 4,
                   boxShadow: "0 3px 0 #7A0C12",
                   duration: 0.18,
@@ -154,7 +153,7 @@ function GithubPopup({ onClose }: { onClose: () => void }) {
                 })
               }
               onMouseLeave={(e) =>
-                fastAnimate(e.currentTarget, {
+                animate(e.currentTarget, {
                   y: 0,
                   boxShadow: "0 6px 0 #7A0C12",
                   duration: 0.2,
@@ -187,14 +186,14 @@ function GithubCard({ btnRef, onClick }: GithubCardProps) {
         ref={btnRef}
         onClick={onClick}
         onMouseEnter={(e) =>
-          fastAnimate(e.currentTarget, {
+          animate(e.currentTarget, {
             y: 6,
             boxShadow: "none",
             duration: 0.2,
           })
         }
         onMouseDown={(e) =>
-          fastAnimate(e.currentTarget, {
+          animate(e.currentTarget, {
             y: 8,
             boxShadow:
               "0 -2px 0 #7A0C12, inset 0 1600px 1600px rgba(0,0,0,0.1)",
@@ -203,7 +202,7 @@ function GithubCard({ btnRef, onClick }: GithubCardProps) {
           })
         }
         onMouseUp={(e) =>
-          fastAnimate(e.currentTarget, {
+          animate(e.currentTarget, {
             y: 4,
             boxShadow: "0 3px 0 #7A0C12",
             duration: 0.18,
@@ -211,7 +210,7 @@ function GithubCard({ btnRef, onClick }: GithubCardProps) {
           })
         }
         onMouseLeave={(e) =>
-          fastAnimate(e.currentTarget, {
+          animate(e.currentTarget, {
             y: 0,
             boxShadow: "0 6px 0 #7A0C12",
             duration: 0.2,
@@ -334,14 +333,14 @@ function PortfolioSection() {
                 className="z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#1c1c25] shadow-[0_4px_0_#101016]"
                 onClick={action}
                 onMouseEnter={(e) =>
-                  fastAnimate(e.currentTarget, {
+                  animate(e.currentTarget, {
                     y: 3,
                     boxShadow: "0 1px 0 #101016",
                     duration: 0.2,
                   })
                 }
                 onMouseDown={(e) =>
-                  fastAnimate(e.currentTarget, {
+                  animate(e.currentTarget, {
                     y: 4,
                     boxShadow:
                       "0 -1px 0 #101016, inset 0 1600px 1600px rgba(0,0,0,0.1)",
@@ -349,7 +348,7 @@ function PortfolioSection() {
                   })
                 }
                 onMouseUp={(e) =>
-                  fastAnimate(e.currentTarget, {
+                  animate(e.currentTarget, {
                     y: 2,
                     boxShadow: "0 2px 0 #101016",
                     duration: 0.2,
@@ -357,7 +356,7 @@ function PortfolioSection() {
                   })
                 }
                 onMouseLeave={(e) =>
-                  fastAnimate(e.currentTarget, {
+                  animate(e.currentTarget, {
                     y: 0,
                     boxShadow: "0 4px 0 #101016",
                     duration: 0.2,

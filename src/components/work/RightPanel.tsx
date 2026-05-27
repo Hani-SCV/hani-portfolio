@@ -4,32 +4,38 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { LinkPopup } from "./LinkPopup";
 import { DoorPanel } from "./DoorPanel";
 import { Screws } from "./Screws";
+import { animate } from "@/shared/animate";
 
 const projects = [
   {
     icon: "/side-project-icons/web-backend.svg",
     title: "웹 백엔드 가이드",
     desc: "Notion API, Docusaurus, Netlify를 기반으로 한 웹 백엔드 가이드입니다.",
+    href: "https://glittery-figolla-6a792b.netlify.app",
   },
   {
     icon: "/side-project-icons/chrome-popup.png",
     title: "크롬 확장 프로그램",
     desc: "크롬에서 작은 모바일 형태의 팝업 창으로 웹사이트를 빠르게 열 수 있는 확장 프로그램입니다.",
+    href: "https://github.com/Hani-SCV/Chrome-popup-browser",
   },
   {
     icon: "/side-project-icons/erp.png",
     title: "유치원 ERP",
     desc: "유치원 관리에 필요한 전사적 자원관리,물적 자원을 효율적으로 관리 하여 경쟁력을 강화시켜주는 통합관리시스템.",
+    href: "https://github.com/Hani-SCV/Kindergarten-ERP",
   },
   {
     icon: "/side-project-icons/todo.png",
     title: "Todo",
     desc: "Node.js, Express, MongoDB를 기반으로 한 간단한 TO-DO 프로젝트.",
+    href: "https://github.com/Hani-SCV/Todo-list",
   },
   {
     icon: "/side-project-icons/portfolio.png",
     title: "포트폴리오",
     desc: "React, Tailwind CSS, GSAP 기반 인터랙티브 포트폴리오",
+    href: "https://github.com/Hani-SCV/hani-portfolio",
   },
 ];
 
@@ -39,11 +45,6 @@ function RightPanel() {
   const containerRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
   const removedSet = useRef(new Set<number>());
-
-  const animate = (el: HTMLElement | null, vars: gsap.TweenVars) => {
-    if (!el) return;
-    gsap.to(el, vars);
-  };
 
   useLayoutEffect(() => {
     if (!containerRef.current) return;

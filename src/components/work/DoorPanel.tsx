@@ -1,3 +1,4 @@
+import { animate } from "@/shared/animate";
 import gsap from "gsap";
 import { Info, Lock } from "lucide-react";
 import { useRef } from "react";
@@ -13,10 +14,6 @@ export function DoorPanel({ lockSize = 20, btnSize = 60 }: DoorPanelProps) {
   const rightDoorRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
-
-  const animate = (el: HTMLElement, vars: gsap.TweenVars) => {
-    gsap.to(el, vars);
-  };
 
   const handleOpen = () => {
     gsap

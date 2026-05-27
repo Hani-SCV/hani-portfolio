@@ -1,3 +1,4 @@
+import { animate } from "@/shared/animate";
 import gsap from "gsap";
 import { X } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef } from "react";
@@ -6,16 +7,11 @@ export function LinkPopup({
   data,
   onClose,
 }: {
-  data: { title: string; desc: string };
+  data: { title: string; desc: string; href: string };
   onClose: () => void;
 }) {
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const goBtnRef = useRef<HTMLAnchorElement>(null);
-
-  const animate = (el: HTMLElement | null, vars: gsap.TweenVars) => {
-    if (!el) return;
-    gsap.to(el, vars);
-  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -86,6 +82,9 @@ export function LinkPopup({
         </div>
         <a
           ref={goBtnRef}
+          href={data.href}
+          target="_blank"
+          rel="noopener noreferrer"
           onMouseDown={() =>
             animate(goBtnRef.current, {
               y: 8,
