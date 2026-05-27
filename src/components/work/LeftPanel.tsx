@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import DragSlider from "./DragSlider";
+import { DragSlider } from "./DragSlider";
 import { Settings } from "lucide-react";
 import { BarChart3 } from "lucide-react";
 import { Toggle } from "@/shared/Toggle";
@@ -9,6 +9,8 @@ import { useState } from "react";
 import { Gameboy } from "./Gameboy";
 import { HardDisk } from "./HardDisk";
 import { Console } from "./Console";
+import { SlideDialog } from "./SlideDialog";
+import { ContactPopup } from "./ContactPopup";
 type ToggleListProps = {
   selected: number;
   onSelect: (index: number) => void;
@@ -42,6 +44,9 @@ function ToggleList({ selected, onSelect }: ToggleListProps) {
 
 export function LeftPanel() {
   const [selected, setSelected] = useState(0);
+  const [showDialog, setShowDialog] = useState(false);
+  const [openContact, setOpenContact] = useState(false);
+  const [sliderResetTrigger, setSliderResetTrigger] = useState(0);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -94,6 +99,11 @@ export function LeftPanel() {
     });
   };
 
+  const handleClosePopup = () => {
+    setOpenContact(false);
+    setSliderResetTrigger((prev) => prev + 1);
+  };
+
   const renderCharacter = () => {
     switch (selected) {
       case 0:
@@ -117,75 +127,85 @@ export function LeftPanel() {
   };
 
   return (
-    <div
-      ref={ref}
-      className="flex flex-col gap-4 rounded-2xl bg-[#D9D9D9] p-4 pb-0"
-    >
-      <div className="flex w-full items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div>
-            <BarChart3 className="h-5 w-8 text-[#C1121F]" />
-          </div>
-
-          <div className="text-xs font-bold tracking-wider text-[#3A3A3A] uppercase">
-            Hani Dev
-          </div>
-        </div>
-
-        <div className="flex items-center gap-1">
-          <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
-          <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
-          <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
-        </div>
-      </div>
-
-      <div className="mt-0.5 h-0.5 w-full bg-[#2F3E77]" />
-
+    <>
       <div
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        className="relative flex h-60 items-center justify-center overflow-hidden rounded-xl bg-[#1C1C1C]"
+        ref={ref}
+        className="flex flex-col gap-4 rounded-2xl bg-[#D9D9D9] p-4 pb-0"
       >
-        <img
-          src="/textures/glass-texture.jpg"
-          className="absolute inset-0 h-full w-full object-cover opacity-50"
-        />
+        <div className="flex w-full items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div>
+              <BarChart3 className="h-5 w-8 text-[#C1121F]" />
+            </div>
 
-        <div className="relative z-10">
-          {renderCharacter()}
+            <div className="text-xs font-bold tracking-wider text-[#3A3A3A] uppercase">
+              Hani Dev
+            </div>
+          </div>
 
-          <div className="animated-grain absolute inset-0 z-10" />
+          <div className="flex items-center gap-1">
+            <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
+            <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
+            <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
+          </div>
         </div>
-      </div>
 
-      <div className="bg-[#c1c1c1] px-3 py-3">
-        <DragSlider />
-      </div>
+        <div className="mt-0.5 h-0.5 w-full bg-[#2F3E77]" />
 
-      <div className="flex flex-col gap-3 bg-[#c1c1c1] p-3">
-        <div className="mb-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Settings className="h-6 w-6 text-[#2F3E77] opacity-40" />
+        <div
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className="relative flex h-60 items-center justify-center overflow-hidden rounded-xl bg-[#1C1C1C]"
+        >
+          <img
+            src="/textures/glass-texture.jpg"
+            className="absolute inset-0 h-full w-full object-cover opacity-50"
+          />
 
+          <div className="relative z-10">
+            {renderCharacter()}
+
+            <div className="animated-grain absolute inset-0 z-10" />
+          </div>
+          {showDialog && (
+            <SlideDialog className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2" />
+          )}
+        </div>
+
+        <div className="bg-[#c1c1c1] px-3 py-3">
+          <DragSlider
+            resetTrigger={sliderResetTrigger}
+            onDialogChange={setShowDialog}
+            onComplete={() => setOpenContact(true)}
+          />
+        </div>
+
+        <div className="flex flex-col gap-3 bg-[#c1c1c1] p-3">
+          <div className="mb-2">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="text-sm font-semibold whitespace-nowrap text-[#3A3A3A]">
-                  Customizer
+                <Settings className="h-6 w-6 text-[#2F3E77] opacity-40" />
+
+                <div className="flex items-center gap-2">
+                  <div className="text-sm font-semibold whitespace-nowrap text-[#3A3A3A]">
+                    Customizer
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <ToggleList selected={selected} onSelect={setSelected} />
         </div>
 
-        <ToggleList selected={selected} onSelect={setSelected} />
-      </div>
-
-      <div className="mt-auto flex h-12 w-full items-center justify-end rounded-t-lg bg-[#3A3A3A] px-4">
-        <div className="flex gap-1">
-          <div className="h-2 w-2 rounded-full bg-[#BFBFBF]" />
-          <div className="h-2 w-2 rounded-full bg-[#BFBFBF]" />
+        <div className="mt-auto flex h-12 w-full items-center justify-end rounded-t-lg bg-[#3A3A3A] px-4">
+          <div className="flex gap-1">
+            <div className="h-2 w-2 rounded-full bg-[#BFBFBF]" />
+            <div className="h-2 w-2 rounded-full bg-[#BFBFBF]" />
+          </div>
         </div>
       </div>
-    </div>
+      <ContactPopup open={openContact} onClose={handleClosePopup} />
+    </>
   );
 }
