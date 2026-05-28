@@ -7,7 +7,7 @@ export function Console({ leftPupilRef, rightPupilRef }: Props) {
   return (
     <>
       <img
-        src="/characters/console/console2.png"
+        src="/characters/console/console.png"
         className="h-full w-full object-contain"
       />
 

@@ -7,7 +7,7 @@ export function Gameboy({ leftPupilRef, rightPupilRef }: Props) {
   return (
     <>
       <img
-        src="/characters/gameboy/gameboy-6.png"
+        src="/characters/gameboy/gameboy.png"
         className="h-full w-full object-contain"
       />
 
