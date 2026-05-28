@@ -8,15 +8,50 @@ type ContactPopupProps = {
   onClose?: () => void;
 };
 
-export function ContactPopup({ open = true, onClose }: ContactPopupProps) {
+export function ContactPopup({ open, onClose }: ContactPopupProps) {
   const btnRef = useRef<HTMLButtonElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const springRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    if (!open) return;
+    if (!rootRef.current) return;
+
     gsap.set(btnRef.current, {
       y: -3,
       boxShadow: "0 6px 0 #7A0C12",
     });
-  }, []);
+
+    gsap.set(springRef.current, {
+      scaleY: 1.8,
+      transformOrigin: "bottom center",
+    });
+
+    const tl = gsap.timeline();
+
+    tl.fromTo(
+      rootRef.current,
+      { y: -160 },
+      {
+        y: 40,
+        duration: 0.6,
+        ease: "power2.out",
+      },
+    )
+      .to(rootRef.current, {
+        y: -10,
+        duration: 0.35,
+        ease: "power2.inOut",
+      })
+      .to(rootRef.current, {
+        y: 0,
+        duration: 0.25,
+        ease: "power2.out",
+      })
+      .to(springRef.current, {
+        scaleY: 1,
+      });
+  }, [open]);
 
   if (!open) return null;
 
@@ -24,12 +59,18 @@ export function ContactPopup({ open = true, onClose }: ContactPopupProps) {
     <>
       <div
         onClick={onClose}
-        className="fixed inset-0 z-999 overflow-hidden bg-[#1C1C25E6]"
+        className="fixed inset-0 z-50 overflow-hidden bg-[#1C1C25E6]"
       >
-        <div className="relative flex h-full w-full flex-col items-center px-9">
+        <div
+          ref={rootRef}
+          className="relative flex h-full w-full flex-col items-center px-9"
+        >
           <div className="relative flex w-full flex-col items-center">
-            <div className="h-16 w-2 rounded-b-full bg-[#D9D9D9]" />
-            <img src="/device/spring.svg" className="z-10 -mt-2 w-10" />
+            <div
+              ref={springRef}
+              className="h-16 w-2 rounded-b-full bg-[#D9D9D9]"
+            />
+            <img src="/device/spring.svg" className="-mt-2 w-10" />
             <div className="-mt-2 h-16 w-2 rounded-t-full bg-[#D9D9D9]" />
             <div className="-mt-1 h-5 w-5 rounded-t-full bg-[#C1121F]" />
 
