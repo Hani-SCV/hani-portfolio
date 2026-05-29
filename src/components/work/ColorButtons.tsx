@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import gsap from "gsap";
 
 const colors = [
@@ -8,6 +9,18 @@ const colors = [
 ];
 
 function RoundButton({ base, dark }: { base: string; dark: string }) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const playSound = () => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio("/sounds/colorBtn.mp3");
+      audioRef.current.volume = 1;
+    }
+
+    audioRef.current.currentTime = 0;
+    audioRef.current.play();
+  };
+
   const handleMouseEnter = (e) => {
     gsap.to(e.currentTarget, {
       y: 6,
@@ -18,6 +31,8 @@ function RoundButton({ base, dark }: { base: string; dark: string }) {
   };
 
   const handleMouseDown = (e) => {
+    playSound();
+
     gsap.to(e.currentTarget, {
       y: 10,
       duration: 0.15,
@@ -65,6 +80,7 @@ function RoundButton({ base, dark }: { base: string; dark: string }) {
     </div>
   );
 }
+
 export function ColorButtons() {
   return (
     <div className="flex w-full flex-col items-center gap-5 py-4">
