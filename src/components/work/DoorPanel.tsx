@@ -1,4 +1,4 @@
-import { animate } from "@/shared/animate";
+import { animate } from "@/shared/utils/animate";
 import gsap from "gsap";
 import { Info, Lock } from "lucide-react";
 import { useRef } from "react";

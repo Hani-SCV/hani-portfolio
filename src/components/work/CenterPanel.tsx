@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { ColorButtons } from "./ColorButtons";
 import { DoorPanel } from "./DoorPanel";
 import { Screws } from "./Screws";
-import { animate } from "@/shared/animate";
+import { animate } from "@/shared/utils/animate";
 
 type GithubCardProps = {
   btnRef: React.RefObject<HTMLButtonElement | null>;

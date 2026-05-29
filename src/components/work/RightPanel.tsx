@@ -4,7 +4,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { LinkPopup } from "./LinkPopup";
 import { DoorPanel } from "./DoorPanel";
 import { Screws } from "./Screws";
-import { animate } from "@/shared/animate";
+import { animate } from "@/shared/utils/animate";
 
 const projects = [
   {
