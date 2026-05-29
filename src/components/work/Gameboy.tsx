@@ -1,13 +1,16 @@
+import { useCustomizerStore } from "@/shared/stores/useCustomizerStore";
+
 type Props = {
   leftPupilRef?: React.RefObject<HTMLDivElement | null>;
   rightPupilRef?: React.RefObject<HTMLDivElement | null>;
 };
 
 export function Gameboy({ leftPupilRef, rightPupilRef }: Props) {
+  const color = useCustomizerStore((s) => s.color);
   return (
     <>
       <img
-        src="/characters/gameboy/gameboy.png"
+        src={`/characters/gameboy/gameboy-${color.name}.png`}
         className="h-full w-full object-contain"
       />
 

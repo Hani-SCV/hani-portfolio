@@ -1,5 +1,7 @@
 import { useRef } from "react";
 import gsap from "gsap";
+import { useCustomizerStore } from "@/shared/stores/useCustomizerStore";
+import { animate } from "@/shared/utils/animate";
 
 const colors = [
   { name: "red", base: "#C1121F", dark: "#7A0C12" },
@@ -8,8 +10,16 @@ const colors = [
   { name: "gray", base: "#6B7280", dark: "#374151" },
 ];
 
-function RoundButton({ base, dark }: { base: string; dark: string }) {
+type RoundButtonProps = {
+  name: string;
+  base: string;
+  dark: string;
+};
+
+function RoundButton({ name, base, dark }: RoundButtonProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const setColor = useCustomizerStore((s) => s.setColor);
+  const leftPanelRef = useCustomizerStore((s) => s.leftPanelRef);
 
   const playSound = () => {
     if (!audioRef.current) {
@@ -21,51 +31,68 @@ function RoundButton({ base, dark }: { base: string; dark: string }) {
     audioRef.current.play();
   };
 
-  const handleMouseEnter = (e) => {
-    gsap.to(e.currentTarget, {
-      y: 6,
-      rotation: 90,
-      duration: 0.15,
-      ease: "power2.in",
+  const handleClick = () => {
+    setColor({
+      name,
+      base,
+      dark,
     });
-  };
 
-  const handleMouseDown = (e) => {
-    playSound();
+    if (leftPanelRef) {
+      gsap.killTweensOf(leftPanelRef);
 
-    gsap.to(e.currentTarget, {
-      y: 10,
-      duration: 0.15,
-      ease: "power2.in",
-    });
-  };
-
-  const handleMouseUp = (e) => {
-    gsap.to(e.currentTarget, {
-      y: 0,
-      boxShadow: "none",
-      duration: 0.2,
-      ease: "back.out(2)",
-    });
-  };
-
-  const handleMouseLeave = (e) => {
-    gsap.to(e.currentTarget, {
-      y: 0,
-      rotation: 0,
-      boxShadow: "none",
-      duration: 0.2,
-    });
+      gsap
+        .timeline()
+        .to(leftPanelRef, {
+          y: -12,
+          duration: 0.12,
+          ease: "power2.out",
+        })
+        .to(leftPanelRef, {
+          y: 0,
+          duration: 0.45,
+          ease: "elastic.out(1, 0.4)",
+        });
+    }
   };
 
   return (
     <div className="flex h-14 w-14 items-center justify-center overflow-visible rounded-full bg-[#1C1C25]">
       <div className="overflow-hidden rounded-full bg-[#101016]">
         <button
-          onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseUp}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          onClick={handleClick}
+          onMouseEnter={(e) =>
+            animate(e.currentTarget, {
+              y: 6,
+              rotation: 90,
+              duration: 0.15,
+              ease: "power2.in",
+            })
+          }
+          onMouseDown={(e) => {
+            playSound();
+            animate(e.currentTarget, {
+              y: 10,
+              duration: 0.15,
+              ease: "power2.in",
+            });
+          }}
+          onMouseUp={(e) =>
+            animate(e.currentTarget, {
+              y: 0,
+              boxShadow: "none",
+              duration: 0.2,
+              ease: "back.out(2)",
+            })
+          }
+          onMouseLeave={(e) =>
+            animate(e.currentTarget, {
+              y: 0,
+              rotation: 0,
+              boxShadow: "none",
+              duration: 0.2,
+            })
+          }
           className="relative flex h-10 w-10 items-center justify-center rounded-full"
           style={{
             backgroundColor: base,
@@ -85,17 +112,17 @@ export function ColorButtons() {
   return (
     <div className="flex w-full flex-col items-center gap-5 py-4">
       <div className="flex">
-        {colors.slice(0, 2).map((c, i) => (
-          <div key={i} className="mx-2">
-            <RoundButton base={c.base} dark={c.dark} />
+        {colors.slice(0, 2).map((c) => (
+          <div key={c.name} className="mx-2">
+            <RoundButton name={c.name} base={c.base} dark={c.dark} />
           </div>
         ))}
       </div>
 
       <div className="mt-2 flex">
-        {colors.slice(2).map((c, i) => (
-          <div key={i} className="mx-2">
-            <RoundButton base={c.base} dark={c.dark} />
+        {colors.slice(2).map((c) => (
+          <div key={c.name} className="mx-2">
+            <RoundButton name={c.name} base={c.base} dark={c.dark} />
           </div>
         ))}
       </div>

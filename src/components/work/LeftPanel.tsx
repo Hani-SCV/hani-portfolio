@@ -1,9 +1,9 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { DragSlider } from "./DragSlider";
 import { Settings } from "lucide-react";
 import { BarChart3 } from "lucide-react";
-import { Toggle } from "@/shared/Toggle";
+import { Toggle } from "@/shared/components/Toggle";
 
 import { useState } from "react";
 import { Gameboy } from "./Gameboy";
@@ -11,6 +11,7 @@ import { HardDisk } from "./HardDisk";
 import { Console } from "./Console";
 import { SlideDialog } from "./SlideDialog";
 import { ContactPopup } from "./ContactPopup";
+import { useCustomizerStore } from "@/shared/stores/useCustomizerStore";
 type ToggleListProps = {
   selected: number;
   onSelect: (index: number) => void;
@@ -49,9 +50,15 @@ export function LeftPanel() {
   const [sliderResetTrigger, setSliderResetTrigger] = useState(0);
 
   const ref = useRef<HTMLDivElement>(null);
-
   const leftPupilRef = useRef<HTMLDivElement>(null);
   const rightPupilRef = useRef<HTMLDivElement>(null);
+
+  const color = useCustomizerStore((s) => s.color);
+  const setLeftPanelRef = useCustomizerStore((s) => s.setLeftPanelRef);
+
+  useEffect(() => {
+    setLeftPanelRef(ref.current);
+  }, [setLeftPanelRef]);
 
   const BASE_LEFT_X = 3;
   const BASE_RIGHT_X = 3;
@@ -135,7 +142,12 @@ export function LeftPanel() {
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-2">
             <div>
-              <BarChart3 className="h-5 w-8 text-[#C1121F]" />
+              <BarChart3
+                className="h-5 w-8"
+                style={{
+                  color: color.base,
+                }}
+              />
             </div>
 
             <div className="text-xs font-bold tracking-wider text-[#3A3A3A] uppercase">
@@ -184,7 +196,12 @@ export function LeftPanel() {
           <div className="mb-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Settings className="h-6 w-6 text-[#2F3E77] opacity-40" />
+                <Settings
+                  className="h-6 w-6 opacity-40"
+                  style={{
+                    color: color.base,
+                  }}
+                />
 
                 <div className="flex items-center gap-2">
                   <div className="text-sm font-semibold whitespace-nowrap text-[#3A3A3A]">
@@ -198,7 +215,12 @@ export function LeftPanel() {
           <ToggleList selected={selected} onSelect={setSelected} />
         </div>
 
-        <div className="mt-auto flex h-12 w-full items-center justify-end rounded-t-lg bg-[#3A3A3A] px-4">
+        <div
+          className="mt-auto flex h-12 w-full items-center justify-end rounded-t-lg px-4"
+          style={{
+            backgroundColor: color.base,
+          }}
+        >
           <div className="flex gap-1">
             <div className="h-2 w-2 rounded-full bg-[#BFBFBF]" />
             <div className="h-2 w-2 rounded-full bg-[#BFBFBF]" />

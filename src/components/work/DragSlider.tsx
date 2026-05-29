@@ -1,3 +1,5 @@
+import { useCustomizerStore } from "@/shared/stores/useCustomizerStore";
+import { animate } from "@/shared/utils/animate";
 import gsap from "gsap";
 import { ArrowBigRightDash } from "lucide-react";
 import { useRef, useLayoutEffect, useEffect } from "react";
@@ -12,6 +14,8 @@ export function DragSlider({
   onComplete,
   resetTrigger,
 }: DragSliderProps) {
+  const color = useCustomizerStore((s) => s.color);
+
   const dragging = useRef(false);
   const startX = useRef(0);
   const currentX = useRef(0);
@@ -35,13 +39,13 @@ export function DragSlider({
   useLayoutEffect(() => {
     gsap.set(btnRef.current, {
       y: -6,
-      boxShadow: "0 6px 0 #7A0C12",
+      boxShadow: `0 6px 0 ${color.dark}`,
     });
 
     gsap.set(handleRef.current, {
       x: 0,
     });
-  }, []);
+  }, [color.dark]);
 
   const onMouseDown = (e: React.MouseEvent) => {
     dragging.current = true;
@@ -94,48 +98,6 @@ export function DragSlider({
     dragging.current = false;
   };
 
-  const onMouseEnter = () => {
-    gsap.to(btnRef.current, {
-      y: 0,
-      boxShadow: "0 1px 0 #7A0C12",
-      duration: 0.2,
-      ease: "power2.out",
-    });
-  };
-
-  const onMouseLeave = () => {
-    onDialogChange(false);
-
-    gsap.to(btnRef.current, {
-      y: -6,
-      boxShadow: "0 6px 0 #7A0C12",
-      duration: 0.2,
-      ease: "power2.out",
-    });
-  };
-
-  const onBtnMouseDown = () => {
-    onDialogChange(true);
-
-    gsap.to(btnRef.current, {
-      y: 0,
-      boxShadow: "0 -2px 0 #7A0C12, inset 0 6px 1px #7A0C12",
-      duration: 0.1,
-      ease: "power2.out",
-    });
-  };
-
-  const onBtnMouseUp = () => {
-    onDialogChange(false);
-
-    gsap.to(btnRef.current, {
-      y: 0,
-      boxShadow: "0 1px 0 #7A0C12",
-      duration: 0.18,
-      ease: "power2.out",
-    });
-  };
-
   return (
     <div
       ref={containerRef}
@@ -155,17 +117,56 @@ export function DragSlider({
       >
         <button
           ref={btnRef}
-          onMouseDown={onBtnMouseDown}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          onMouseUp={onBtnMouseUp}
-          className="h-12 rounded-md bg-[#C1121F] px-4 font-bold text-black"
+          onMouseEnter={() =>
+            animate(btnRef.current, {
+              y: 0,
+              boxShadow: `0 1px 0 ${color.base}`,
+              duration: 0.2,
+              ease: "power2.out",
+            })
+          }
+          onMouseDown={() => {
+            onDialogChange(true);
+            animate(btnRef.current, {
+              y: 0,
+              boxShadow: `0 -2px 0 ${color.dark}, inset 0 6px 1px ${color.dark}`,
+              duration: 0.1,
+              ease: "power2.out",
+            });
+          }}
+          onMouseUp={() => {
+            onDialogChange(false);
+            animate(btnRef.current, {
+              y: 0,
+              boxShadow: `0 1px 0 ${color.dark}`,
+              duration: 0.18,
+              ease: "power2.out",
+            });
+          }}
+          onMouseLeave={() => {
+            onDialogChange(false);
+            animate(btnRef.current, {
+              y: -6,
+              boxShadow: `0 6px 0 ${color.dark}`,
+              duration: 0.2,
+              ease: "power2.out",
+            });
+          }}
+          className="h-12 rounded-md px-4 font-bold text-black"
+          style={{
+            backgroundColor: color.base,
+          }}
         >
           COMMENT ME
         </button>
       </div>
 
-      <div className="absolute top-1/2 right-3 z-0 -translate-y-1/2 text-[#C1121F]">
+      <div
+        className="text- absolute top-1/2 right-3 z-0 -translate-y-1/2"
+        style={{
+          color: color.base,
+        }}
+      >
         <ArrowBigRightDash />
       </div>
     </div>
