@@ -1,18 +1,21 @@
+import { useCustomizerStore } from "@/shared/stores/useCustomizerStore";
+
 type Props = {
   leftPupilRef?: React.RefObject<HTMLDivElement | null>;
   rightPupilRef?: React.RefObject<HTMLDivElement | null>;
 };
 
 export function Console({ leftPupilRef, rightPupilRef }: Props) {
+  const color = useCustomizerStore((s) => s.color);
   return (
     <>
       <img
-        src="/characters/console/console.png"
+        src={`/characters/console/console-${color.name}.png`}
         className="h-full w-full object-contain"
       />
 
       <div className="pointer-events-none absolute inset-0 top-13 left-27 w-25">
-        <img src="/characters/hard-disk/hard-disk-eya.png" />
+        <img src="/characters/hardDisk/hardDisk-eya.png" />
 
         <svg
           className="absolute inset-0"
