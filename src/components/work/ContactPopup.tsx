@@ -1,7 +1,7 @@
 import { animate } from "@/shared/utils/animate";
 import gsap from "gsap";
 import { Mail, X } from "lucide-react";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 type ContactPopupProps = {
   open?: boolean;
@@ -12,6 +12,10 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
   const btnRef = useRef<HTMLButtonElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const springRef = useRef<HTMLDivElement>(null);
+
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useLayoutEffect(() => {
     if (!open) return;
@@ -55,6 +59,46 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
 
   if (!open) return null;
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!email.trim() || !message.trim()) {
+      alert("이메일과 메시지를 입력해주세요.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await fetch("/.netlify/functions/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message);
+      }
+
+      alert("메시지가 전송되었습니다.");
+
+      setEmail("");
+      setMessage("");
+      onClose();
+    } catch (error) {
+      console.error(error);
+      alert("전송에 실패했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <div
@@ -63,6 +107,7 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
       >
         <div
           ref={rootRef}
+          onClick={(e) => e.stopPropagation()}
           className="relative flex h-full w-full flex-col items-center px-9"
         >
           <div className="relative flex w-full flex-col items-center">
@@ -153,16 +198,20 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
                 </div>
 
                 <div className="mb-0 h-full px-3.5">
-                  <form className="flex flex-col gap-4">
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div className="">
                       <div className="flex flex-col pt-3.5">
                         <input
                           type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           placeholder="your@email.com"
                           className="mb-2 min-h-12 resize-y rounded border border-black bg-[#1C1C25] p-4.5 font-sans text-base text-[#D9D9D9] outline-none placeholder:text-[#D9D9D980]"
                         />
 
                         <textarea
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
                           placeholder="your message"
                           className="mb-2 block h-auto max-h-60 min-h-12 w-full resize-y rounded border border-black bg-[#1C1C25] p-4.5 font-sans text-base leading-5 text-[#D9D9D9] outline-none placeholder:text-[#D9D9D980]"
                         />
@@ -171,6 +220,7 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
                           <button
                             ref={btnRef}
                             type="submit"
+                            disabled={loading}
                             onMouseEnter={(e) =>
                               animate(e.currentTarget, {
                                 y: 0,
@@ -211,7 +261,7 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
                             className="relative -mt-1.5 min-h-10.5 w-full overflow-hidden rounded bg-[#C1121F] text-[#1C1C25]"
                           >
                             <div className="flex h-full w-full items-center justify-center py-4">
-                              SUBMIT
+                              {loading ? "SENDING..." : "SUBMIT"}
                             </div>
                           </button>
                         </div>
