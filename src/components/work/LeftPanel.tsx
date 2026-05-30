@@ -184,7 +184,7 @@ export function LeftPanel() {
           )}
         </div>
 
-        <div className="bg-[#c1c1c1] px-3 py-3">
+        <div className="rounded-lg bg-[#c1c1c1] px-3 py-3">
           <DragSlider
             resetTrigger={sliderResetTrigger}
             onDialogChange={setShowDialog}
@@ -192,7 +192,7 @@ export function LeftPanel() {
           />
         </div>
 
-        <div className="flex flex-col gap-3 bg-[#c1c1c1] p-3">
+        <div className="flex flex-col gap-3 rounded-lg bg-[#c1c1c1] p-3">
           <div className="mb-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
