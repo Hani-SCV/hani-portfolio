@@ -5,8 +5,8 @@ import { ArrowBigRightDash } from "lucide-react";
 import { useRef, useLayoutEffect, useEffect } from "react";
 
 type DragSliderProps = {
-  onDialogChange?: (open: boolean) => void;
-  onComplete?: () => void;
+  onDialogChange: (open: boolean) => void;
+  onComplete: () => void;
   resetTrigger?: number;
 };
 export function DragSlider({

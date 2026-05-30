@@ -4,8 +4,8 @@ import { Mail, X } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
 
 type ContactPopupProps = {
-  open?: boolean;
-  onClose?: () => void;
+  open: boolean;
+  onClose: () => void;
 };
 
 export function ContactPopup({ open, onClose }: ContactPopupProps) {
