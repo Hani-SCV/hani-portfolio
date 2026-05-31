@@ -36,6 +36,17 @@ body {
     rgba(0, 0, 0, 0) 92.5%,
     rgba(229, 229, 229, 0.2) 92.5%
   );
+
+  --color-primary: #c1121f;
+  --color-primary-dark: #7a0c12;
+
+  --color-panel: #d9d9d9;
+  --color-panel-dark: #c1c1c1;
+
+  --color-screen: #1c1c1c;
+  --color-background: #1c1c25;
+
+  --color-text: #3a3a3a;
 }
 
 .bg-stripe-fixed {
