@@ -1,4 +1,4 @@
-import { useCustomizerStore } from "../stores/useCustomizerStore";
+import { useCustomizerStore } from "../../features/work/stores/useCustomizerStore";
 
 type Props = {
   active: boolean;

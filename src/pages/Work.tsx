@@ -1,4 +1,4 @@
-import { MainSelect } from "@/components/work/MainSelect";
+import { MainSelect } from "@/features/work/components/MainSelect";
 
 export function Work() {
   return <MainSelect />;

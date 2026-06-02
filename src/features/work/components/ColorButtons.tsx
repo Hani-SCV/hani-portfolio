@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import gsap from "gsap";
-import { useCustomizerStore } from "@/shared/stores/useCustomizerStore";
+import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
 import { animate } from "@/shared/utils/animate";
 
 const colors = [

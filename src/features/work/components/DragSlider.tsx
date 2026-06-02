@@ -1,4 +1,4 @@
-import { useCustomizerStore } from "@/shared/stores/useCustomizerStore";
+import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
 import { animate } from "@/shared/utils/animate";
 import gsap from "gsap";
 import { ArrowBigRightDash } from "lucide-react";

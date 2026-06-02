@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { DragSlider } from "./DragSlider";
 import { Settings } from "lucide-react";
 import { BarChart3 } from "lucide-react";
-import { Toggle } from "@/shared/components/Toggle";
+import { Toggle } from "@/shared/ui/Toggle";
 
 import { useState } from "react";
 import { Gameboy } from "./Gameboy";
@@ -11,7 +11,7 @@ import { HardDisk } from "./HardDisk";
 import { Console } from "./Console";
 import { SlideDialog } from "./SlideDialog";
 import { ContactPopup } from "./ContactPopup";
-import { useCustomizerStore } from "@/shared/stores/useCustomizerStore";
+import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
 type ToggleListProps = {
   selected: number;
   onSelect: (index: number) => void;

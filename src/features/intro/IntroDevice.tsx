@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import { DeviceDots } from "@/shared/components/DeviceDots";
-import { DeviceScrew } from "@/shared/components/DeviceScrew";
+import { DeviceDots } from "@/shared/ui/DeviceDots";
+import { DeviceScrew } from "@/shared/ui/DeviceScrew";
 import { animate } from "@/shared/utils/animate";
 
 type Props = {

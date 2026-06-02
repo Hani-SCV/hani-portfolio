@@ -1,4 +1,4 @@
-import { useCustomizerStore } from "@/shared/stores/useCustomizerStore";
+import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
 
 type Props = {
   leftPupilRef?: React.RefObject<HTMLDivElement | null>;
