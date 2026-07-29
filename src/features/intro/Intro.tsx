@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+
 import { IntroDevice } from "./IntroDevice";
 
 export function Intro() {

@@ -1,10 +1,12 @@
-import { PanelsTopLeft } from "lucide-react";
 import gsap from "gsap";
+import { PanelsTopLeft } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
-import { LinkPopup } from "./LinkPopup";
-import { DoorPanel } from "./DoorPanel";
-import { Screws } from "./Screws";
+
 import { animate } from "@/shared/utils/animate";
+
+import { DoorPanel } from "./DoorPanel";
+import { LinkPopup } from "./LinkPopup";
+import { Screws } from "./Screws";
 
 const projects = [
   {
@@ -39,7 +41,7 @@ const projects = [
   },
 ];
 
-function RightPanel() {
+function PanelContent() {
   const [selected, setSelected] = useState<(typeof projects)[0] | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -207,10 +209,10 @@ function RightPanel() {
   );
 }
 
-export function RightSection() {
+export function RightPanel() {
   return (
     <div className="relative rounded-xl border border-[#25252f] bg-[#25252f] shadow-[0_0_16px_#101016] hover:border-[rgba(196,196,196,0.7)]">
-      <RightPanel />
+      <PanelContent />
 
       <div className="pointer-events-none absolute inset-0 z-10">
         <DoorPanel />

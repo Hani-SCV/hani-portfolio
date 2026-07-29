@@ -1,17 +1,18 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import { DragSlider } from "./DragSlider";
 import { Settings } from "lucide-react";
 import { BarChart3 } from "lucide-react";
+import { useEffect, useLayoutEffect, useRef } from "react";
+import { useState } from "react";
+
+import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
 import { Toggle } from "@/shared/ui/Toggle";
 
-import { useState } from "react";
+import { Console } from "./Console";
+import { ContactPopup } from "./ContactPopup";
+import { DragSlider } from "./DragSlider";
 import { Gameboy } from "./Gameboy";
 import { HardDisk } from "./HardDisk";
-import { Console } from "./Console";
 import { SlideDialog } from "./SlideDialog";
-import { ContactPopup } from "./ContactPopup";
-import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
 type ToggleListProps = {
   selected: number;
   onSelect: (index: number) => void;

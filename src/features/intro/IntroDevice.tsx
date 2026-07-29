@@ -1,5 +1,6 @@
-import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
+import { useLayoutEffect, useRef } from "react";
+
 import { DeviceDots } from "@/shared/ui/DeviceDots";
 import { DeviceScrew } from "@/shared/ui/DeviceScrew";
 import { animate } from "@/shared/utils/animate";

@@ -1,8 +1,9 @@
-import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
-import { animate } from "@/shared/utils/animate";
 import gsap from "gsap";
 import { ArrowBigRightDash } from "lucide-react";
-import { useRef, useLayoutEffect, useEffect } from "react";
+import { useEffect,useLayoutEffect, useRef } from "react";
+
+import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
+import { animate } from "@/shared/utils/animate";
 
 type DragSliderProps = {
   onDialogChange: (open: boolean) => void;

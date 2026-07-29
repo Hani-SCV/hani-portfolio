@@ -1,5 +1,6 @@
-import { useRef } from "react";
 import gsap from "gsap";
+import { useRef } from "react";
+
 import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
 import { animate } from "@/shared/utils/animate";
 

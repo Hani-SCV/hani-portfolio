@@ -1,6 +1,6 @@
 export function DeviceScrew() {
   return (
-    <div className="text-gray-400">
+    <div aria-hidden="true" className="text-gray-400">
       <svg className="h-5 w-5" viewBox="0 0 32 32" fill="none">
         <path
           fillRule="evenodd"

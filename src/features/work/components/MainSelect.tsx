@@ -1,8 +1,9 @@
-import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import { LeftPanel } from "./LeftPanel";
+import { useLayoutEffect, useRef } from "react";
+
 import { CenterPanel } from "./CenterPanel";
-import { RightSection } from "./RightPanel";
+import { LeftPanel } from "./LeftPanel";
+import { RightPanel } from "./RightPanel";
 
 export function MainSelect() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -22,12 +23,12 @@ export function MainSelect() {
   return (
     <div
       ref={rootRef}
-      className="mx-auto box-border w-full max-w-[75em] px-0 py-12 select-none"
+      className="mx-auto box-border w-full max-w-300 py-12 select-none"
     >
       <div className="grid h-[90vh] grid-cols-[340px_minmax(0,1fr)_320px] gap-4">
         <LeftPanel />
         <CenterPanel />
-        <RightSection />
+        <RightPanel />
       </div>
     </div>
   );

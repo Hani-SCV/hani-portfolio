@@ -1,7 +1,8 @@
-import { animate } from "@/shared/utils/animate";
 import gsap from "gsap";
 import { X } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef } from "react";
+
+import { animate } from "@/shared/utils/animate";
 
 export function LinkPopup({
   data,

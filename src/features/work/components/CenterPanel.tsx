@@ -2,10 +2,12 @@
 import gsap from "gsap";
 import { ArrowLeft, ArrowRight, Image, X } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
+
+import { animate } from "@/shared/utils/animate";
+
 import { ColorButtons } from "./ColorButtons";
 import { DoorPanel } from "./DoorPanel";
 import { Screws } from "./Screws";
-import { animate } from "@/shared/utils/animate";
 
 type GithubCardProps = {
   btnRef: React.RefObject<HTMLButtonElement | null>;

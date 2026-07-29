@@ -1,7 +1,8 @@
-import { animate } from "@/shared/utils/animate";
 import gsap from "gsap";
 import { Mail, X } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
+
+import { animate } from "@/shared/utils/animate";
 
 type ContactPopupProps = {
   open: boolean;
