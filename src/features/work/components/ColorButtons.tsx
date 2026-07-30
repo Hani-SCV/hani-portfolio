@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { useRef } from "react";
 
 import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
-import { animate } from "@/shared/utils/animate";
+import { animate } from "@/shared/utils/gsap";
 
 const colors = [
   { name: "red", base: "#C1121F", dark: "#7A0C12" },
@@ -20,7 +20,7 @@ type RoundButtonProps = {
 function RoundButton({ name, base, dark }: RoundButtonProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const setColor = useCustomizerStore((s) => s.setColor);
-  const leftPanelRef = useCustomizerStore((s) => s.leftPanelRef);
+  const leftPanelElement = useCustomizerStore((s) => s.leftPanelElement);
 
   const playSound = () => {
     if (!audioRef.current) {
@@ -29,7 +29,7 @@ function RoundButton({ name, base, dark }: RoundButtonProps) {
     }
 
     audioRef.current.currentTime = 0;
-    audioRef.current.play();
+    void audioRef.current.play();
   };
 
   const handleClick = () => {
@@ -39,21 +39,20 @@ function RoundButton({ name, base, dark }: RoundButtonProps) {
       dark,
     });
 
-    if (leftPanelRef) {
-      gsap.killTweensOf(leftPanelRef);
+    if (leftPanelElement) {
+      gsap.killTweensOf(leftPanelElement);
 
-      gsap
-        .timeline()
-        .to(leftPanelRef, {
-          y: -12,
-          duration: 0.12,
-          ease: "power2.out",
-        })
-        .to(leftPanelRef, {
-          y: 0,
-          duration: 0.45,
-          ease: "elastic.out(1, 0.4)",
-        });
+      const tl = gsap.timeline();
+
+      tl.to(leftPanelElement, {
+        y: -12,
+        duration: 0.12,
+        ease: "power2.out",
+      }).to(leftPanelElement, {
+        y: 0,
+        duration: 0.45,
+        ease: "elastic.out(1, 0.4)",
+      });
     }
   };
 
@@ -95,9 +94,7 @@ function RoundButton({ name, base, dark }: RoundButtonProps) {
             })
           }
           className="relative flex h-10 w-10 items-center justify-center rounded-full"
-          style={{
-            backgroundColor: base,
-          }}
+          style={{ backgroundColor: base }}
         >
           <div
             className="h-1 w-1/2 rounded"
