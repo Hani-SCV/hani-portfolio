@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef } from "react";
 
 import { DeviceDots } from "@/shared/ui/DeviceDots";
 import { DeviceScrew } from "@/shared/ui/DeviceScrew";
-import { animate } from "@/shared/utils/animate";
+import { animate } from "@/shared/utils/gsap";
 
 type Props = {
   onComplete: () => void;
@@ -164,8 +164,8 @@ export function IntroDevice({ onComplete }: Props) {
                   </h1>
 
                   <div ref={descRef} className="text-[0.7vw] font-bold">
-                    I am a web backend developer. Thank you for viewing my
-                    portfolio.
+                    웹 백엔드 개발자 김하니입니다. 저의 포트폴리오를 찾아주셔서
+                    감사합니다.
                   </div>
                 </div>
               </div>
