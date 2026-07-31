@@ -121,10 +121,10 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
             {/* DEVICE */}
             <div className="relative w-full max-w-175 rounded-lg bg-[#D9D9D9] py-3.5 shadow-2xl">
               <div className="flex flex-col">
-                <div className="flex w-full border-b-2 border-[#c1c1c1] px-3.5 pb-3.5">
-                  <div className="flex w-full items-center justify-between rounded-md bg-[#c1c1c1] p-2">
+                <div className="border-panel-dark flex w-full border-b-2 px-3.5 pb-3.5">
+                  <div className="bg-panel-dark flex w-full items-center justify-between rounded-md p-2">
                     <div className="flex items-center justify-center gap-3">
-                      <div className="mr-3 flex h-11.5 w-11.5 items-center justify-center rounded-md bg-[#1c1c25]">
+                      <div className="bg-background mr-3 flex h-11.5 w-11.5 items-center justify-center rounded-md">
                         <Mail className="text-[#C1121F]" />
                       </div>
 
@@ -164,7 +164,7 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
                     />
                   </div>
 
-                  <div className="mr-0 ml-3 flex h-16 min-h-16 w-16 min-w-16 items-center justify-center rounded-full bg-[#c1c1c1]">
+                  <div className="bg-panel-dark mr-0 ml-3 flex h-16 min-h-16 w-16 min-w-16 items-center justify-center rounded-full">
                     <div className="overflow-hidden rounded-full">
                       <button
                         onClick={onClose}
@@ -215,7 +215,7 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
                           className="mb-2 block h-auto max-h-60 min-h-12 w-full resize-y rounded border border-black bg-[#1C1C25] p-4.5 font-sans text-base leading-5 text-[#D9D9D9] outline-none placeholder:text-[#D9D9D980]"
                         />
 
-                        <div className="rounded-lg bg-[#c1c1c1] p-3.5">
+                        <div className="bg-panel-dark rounded-lg p-3.5">
                           <button
                             ref={btnRef}
                             type="submit"
