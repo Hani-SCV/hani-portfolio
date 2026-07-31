@@ -1,4 +1,4 @@
-import { useCustomizerStore } from "../../features/work/stores/useCustomizerStore";
+import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
 
 type Props = {
   active: boolean;
@@ -7,7 +7,7 @@ type Props = {
 export function Toggle({ active }: Props) {
   const color = useCustomizerStore((s) => s.color);
   return (
-    <div className="flex h-5 w-9 items-center rounded-full bg-[#c1c1c1] p-1">
+    <div className="bg-panel-dark flex h-5 w-9 items-center rounded-full p-1">
       <div
         className={`h-3 w-3 rounded-full transition-all duration-200 ${
           active ? "translate-x-4" : ""

@@ -1,5 +1,6 @@
-import gsap from "gsap";
 import { useLayoutEffect, useRef } from "react";
+
+import { fromTo } from "@/shared/utils/gsap";
 
 type SlideDialogProps = {
   className?: string;
@@ -9,9 +10,7 @@ export function SlideDialog({ className = "" }: SlideDialogProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if (!ref.current) return;
-
-    gsap.fromTo(
+    fromTo(
       ref.current,
       {
         y: 12,

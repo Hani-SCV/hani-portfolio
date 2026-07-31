@@ -4,7 +4,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 
 import { DeviceDots } from "@/shared/ui/DeviceDots";
 import { DeviceScrew } from "@/shared/ui/DeviceScrew";
-import { animate } from "@/shared/utils/gsap";
+import { animate, set } from "@/shared/utils/gsap";
 
 import { sendContact } from "../api/sendContact";
 
@@ -26,12 +26,12 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
     if (!open) return;
     if (!rootRef.current) return;
 
-    gsap.set(btnRef.current, {
+    set(btnRef.current, {
       y: -3,
       boxShadow: "0 6px 0 #7A0C12",
     });
 
-    gsap.set(springRef.current, {
+    set(springRef.current, {
       scaleY: 1.8,
       transformOrigin: "bottom center",
     });

@@ -2,12 +2,12 @@ import gsap from "gsap";
 import { Info, Lock } from "lucide-react";
 import { useRef } from "react";
 
-import { animate } from "@/shared/utils/animate";
+import { animate } from "@/shared/utils/gsap";
 
-interface DoorPanelProps {
+type DoorPanelProps = {
   lockSize?: number;
   btnSize?: number;
-}
+};
 
 export function DoorPanel({ lockSize = 20, btnSize = 60 }: DoorPanelProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -17,24 +17,22 @@ export function DoorPanel({ lockSize = 20, btnSize = 60 }: DoorPanelProps) {
   const btnRef = useRef<HTMLButtonElement>(null);
 
   const handleOpen = () => {
-    gsap
-      .timeline({
-        onComplete: () => {
-          gsap.set(rootRef.current, { display: "none" });
-        },
-      })
+    const tl = gsap.timeline({
+      onComplete: () => {
+        gsap.set(rootRef.current, { display: "none" });
+      },
+    });
 
-      .to(
-        [btnRef.current, infoRef.current],
-        {
-          scale: 0.5,
-          opacity: 0,
-          duration: 0.3,
-          ease: "power2.in",
-        },
-        0,
-      )
-
+    tl.to(
+      [btnRef.current, infoRef.current],
+      {
+        scale: 0.5,
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.in",
+      },
+      0,
+    )
       .to(
         leftDoorRef.current,
         {
@@ -53,7 +51,6 @@ export function DoorPanel({ lockSize = 20, btnSize = 60 }: DoorPanelProps) {
         },
         0.05,
       )
-
       .to(rootRef.current, {
         opacity: 0,
         duration: 0.3,
@@ -97,6 +94,7 @@ export function DoorPanel({ lockSize = 20, btnSize = 60 }: DoorPanelProps) {
       <div className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
         <button
           ref={btnRef}
+          aria-label="Open panel"
           onClick={handleOpen}
           onMouseEnter={(e) =>
             animate(e.currentTarget, {

@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { PanelsTopLeft } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
 
-import { animate } from "@/shared/utils/animate";
+import { animate, set } from "@/shared/utils/gsap";
 
 import { DoorPanel } from "./DoorPanel";
 import { LinkPopup } from "./LinkPopup";
@@ -41,6 +41,43 @@ const projects = [
   },
 ];
 
+const STACKS = [
+  { src: "/stack/vite.png", label: "Vite" },
+  { src: "/stack/ts.png", label: "Ts" },
+  { src: "/stack/react.png", label: "React" },
+  { src: "/stack/gsap.png", label: "Gsap" },
+];
+
+const BUTTON_ANIMATION = {
+  down: {
+    y: 8,
+    boxShadow: "0 -1px 0 #101016, inset 0 10px 1px #101016",
+    duration: 0.15,
+  },
+  up: {
+    y: 4,
+    boxShadow: "0 3px 0 #101016",
+    duration: 0.2,
+  },
+  enter: {
+    y: 6,
+    boxShadow: "none",
+    duration: 0.2,
+  },
+  leave: {
+    y: 0,
+    boxShadow: "0 8px 0 #101016",
+    duration: 0.2,
+  },
+} as const;
+
+const screwPositions = [
+  "top-2 left-2",
+  "top-2 right-2",
+  "bottom-2 left-2",
+  "bottom-2 right-2",
+];
+
 function PanelContent() {
   const [selected, setSelected] = useState<(typeof projects)[0] | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -49,27 +86,13 @@ function PanelContent() {
   const removedSet = useRef(new Set<number>());
 
   useLayoutEffect(() => {
-    if (!containerRef.current) return;
-    gsap.set(containerRef.current.querySelectorAll(".project-btn"), {
+    set(containerRef.current.querySelectorAll(".project-btn"), {
       boxShadow: "0 8px 0 #101016",
     });
   }, []);
 
-  const handleBtn = (
-    type: "down" | "up" | "enter" | "leave",
-    el: HTMLElement,
-  ) => {
-    const map = {
-      down: {
-        y: 8,
-        boxShadow: "0 -1px 0 #101016, inset 0 10px 1px #101016",
-        duration: 0.15,
-      },
-      up: { y: 4, boxShadow: "0 3px 0 #101016", duration: 0.2 },
-      enter: { y: 6, boxShadow: "none", duration: 0.2 },
-      leave: { y: 0, boxShadow: "0 8px 0 #101016", duration: 0.2 },
-    };
-    animate(el, map[type]);
+  const handleBtn = (type: keyof typeof BUTTON_ANIMATION, el: HTMLElement) => {
+    animate(el, BUTTON_ANIMATION[type]);
   };
 
   const handleScrewClick = (index: number, el: HTMLElement) => {
@@ -101,8 +124,8 @@ function PanelContent() {
           }
         },
       })
-      .to(el, { rotation: 180, duration: 0.3 })
-      .to(el, { y: 100, opacity: 0, duration: 0.4 });
+      .animate(el, { rotation: 180, duration: 0.3 })
+      .animate(el, { y: 100, opacity: 0, duration: 0.4 });
   };
 
   const handleScrewHover = (el: HTMLElement, enter: boolean) => {
@@ -126,9 +149,9 @@ function PanelContent() {
       </div>
 
       <div ref={containerRef} className="grid flex-1 grid-cols-2 gap-4">
-        {projects.map((item, i) => (
+        {projects.map((item) => (
           <div
-            key={i}
+            key={item.title}
             className="relative aspect-square rounded-xl bg-[#1C1C25]"
           >
             <Screws />
@@ -158,14 +181,9 @@ function PanelContent() {
             <div className="text-lg">Stack</div>
 
             <div className="grid grid-cols-2 gap-4">
-              {[
-                { src: "/stack/vite.png", label: "Vite" },
-                { src: "/stack/ts.png", label: "Ts" },
-                { src: "/stack/react.png", label: "React" },
-                { src: "/stack/gsap.png", label: "Gsap" },
-              ].map((item, i) => (
+              {STACKS.map((item) => (
                 <div
-                  key={i}
+                  key={item.label}
                   className="flex flex-col items-center justify-center gap-2"
                 >
                   <div className="flex h-10 w-10 items-center justify-center">
@@ -191,7 +209,7 @@ function PanelContent() {
               onClick={(e) => handleScrewClick(i, e.currentTarget)}
               onMouseEnter={(e) => handleScrewHover(e.currentTarget, true)}
               onMouseLeave={(e) => handleScrewHover(e.currentTarget, false)}
-              className={`absolute cursor-pointer text-[#51515D] ${i === 0 && "top-2 left-2"} ${i === 1 && "top-2 right-2"} ${i === 2 && "bottom-2 left-2"} ${i === 3 && "right-2 bottom-2"} `}
+              className={`absolute cursor-pointer text-[#51515D] ${screwPositions[i]}`}
             >
               <svg className="h-5 w-5" viewBox="0 0 32 32" fill="none">
                 <path
