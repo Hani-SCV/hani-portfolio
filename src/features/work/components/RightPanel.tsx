@@ -13,7 +13,7 @@ const projects = [
     icon: "/side-project-icons/web-backend.svg",
     title: "웹 백엔드 가이드",
     desc: "Notion API, Docusaurus, Netlify를 기반으로 한 웹 백엔드 가이드입니다.",
-    href: "https://glittery-figolla-6a792b.netlify.app",
+    href: "https://hani-backend-guide.netlify.app/",
   },
   {
     icon: "/side-project-icons/chrome-popup.png",
