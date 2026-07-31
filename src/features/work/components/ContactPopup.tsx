@@ -2,7 +2,11 @@ import gsap from "gsap";
 import { Mail, X } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
 
-import { animate } from "@/shared/utils/animate";
+import { DeviceDots } from "@/shared/ui/DeviceDots";
+import { DeviceScrew } from "@/shared/ui/DeviceScrew";
+import { animate } from "@/shared/utils/gsap";
+
+import { sendContact } from "../api/sendContact";
 
 type ContactPopupProps = {
   open: boolean;
@@ -56,6 +60,10 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
       .to(springRef.current, {
         scaleY: 1,
       });
+
+    return () => {
+      tl.kill();
+    };
   }, [open]);
 
   if (!open) return null;
@@ -71,22 +79,10 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
     try {
       setLoading(true);
 
-      const response = await fetch("/.netlify/functions/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          message,
-        }),
+      await sendContact({
+        email,
+        message,
       });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message);
-      }
 
       alert("메시지가 전송되었습니다.");
 
@@ -104,6 +100,8 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
     <>
       <div
         onClick={onClose}
+        role="dialog"
+        aria-modal="true"
         className="fixed inset-0 z-50 overflow-hidden bg-[#1C1C25E6]"
       >
         <div
@@ -271,39 +269,9 @@ export function ContactPopup({ open, onClose }: ContactPopupProps) {
                   </form>
                 </div>
                 <div className="mt-3 flex items-center justify-between px-5">
-                  <div className="text-gray-400">
-                    <svg className="h-7 w-7" viewBox="0 0 32 32" fill="none">
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M16 0C24.8366 0 32 7.16344 32 16C32 24.8366 24.8366 32 16 32C7.16345 32 0 24.8366 0 16C0 7.16344 7.16344 0 16 0ZM7.65226 15.7594C7.65226 14.6548 8.54769 13.7594 9.65226 13.7594H13.9994V9.41176C13.9994 8.30719 14.8949 7.41176 15.9994 7.41176C17.104 7.41176 17.9994 8.30719 17.9994 9.41176L17.9994 13.7594H22.3475C23.452 13.7594 24.3475 14.6548 24.3475 15.7594C24.3475 16.8639 23.452 17.7594 22.3475 17.7594H17.9994V22.107C17.9994 23.2115 17.104 24.107 15.9994 24.107C14.8949 24.107 13.9994 23.2115 13.9994 22.107V17.7594L9.65226 17.7594C8.54769 17.7594 7.65226 16.8639 7.65226 15.7594Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </div>
-
-                  <div
-                    className="h-5 w-40 translate-x-12 bg-[#C1121F]"
-                    style={{
-                      WebkitMaskImage: "url(/device/device-dots.png)",
-                      WebkitMaskRepeat: "no-repeat",
-                      WebkitMaskSize: "contain",
-                      maskImage: "url(/device/device-dots.png)",
-                      maskRepeat: "no-repeat",
-                      maskSize: "contain",
-                    }}
-                  />
-
-                  <div className="text-gray-400">
-                    <svg className="h-7 w-7" viewBox="0 0 32 32" fill="none">
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M16 0C24.8366 0 32 7.16344 32 16C32 24.8366 24.8366 32 16 32C7.16345 32 0 24.8366 0 16C0 7.16344 7.16344 0 16 0ZM7.65226 15.7594C7.65226 14.6548 8.54769 13.7594 9.65226 13.7594H13.9994V9.41176C13.9994 8.30719 14.8949 7.41176 15.9994 7.41176C17.104 7.41176 17.9994 8.30719 17.9994 9.41176L17.9994 13.7594H22.3475C23.452 13.7594 24.3475 14.6548 24.3475 15.7594C24.3475 16.8639 23.452 17.7594 22.3475 17.7594H17.9994V22.107C17.9994 23.2115 17.104 24.107 15.9994 24.107C14.8949 24.107 13.9994 23.2115 13.9994 22.107V17.7594L9.65226 17.7594C8.54769 17.7594 7.65226 16.8639 7.65226 15.7594Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </div>
+                  <DeviceScrew />
+                  <DeviceDots className="translate-x-12" />
+                  <DeviceScrew />
                 </div>
               </div>
             </div>
