@@ -1,4 +1,4 @@
-import { useCustomizerStore } from "@/shared/stores/useCustomizerStore";
+import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
 
 type Props = {
   leftPupilRef?: React.RefObject<HTMLDivElement | null>;
@@ -6,17 +6,16 @@ type Props = {
 };
 
 export function HardDisk({ leftPupilRef, rightPupilRef }: Props) {
-  const color = useCustomizerStore((s) => s.color);
-
+  const colorName = useCustomizerStore((s) => s.color.name);
   return (
     <>
       <img
-        src={`/characters/hardDisk/hardDisk-${color.name}.png`}
+        src={`/characters/hardDisk/hardDisk-${colorName}.png`}
         className="h-full w-full object-contain"
       />
 
       <div className="pointer-events-none absolute inset-0 top-19 left-28 w-20">
-        <img src="/characters/hardDisk/hardDisk-eya.png" />
+        <img src="/characters/hardDisk/hardDisk-eye.png" />
 
         <svg
           className="absolute inset-0"

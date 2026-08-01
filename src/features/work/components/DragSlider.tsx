@@ -1,8 +1,8 @@
-import { useCustomizerStore } from "@/shared/stores/useCustomizerStore";
-import { animate } from "@/shared/utils/animate";
-import gsap from "gsap";
 import { ArrowBigRightDash } from "lucide-react";
-import { useRef, useLayoutEffect, useEffect } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
+
+import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
+import { animate, set } from "@/shared/utils/gsap";
 
 type DragSliderProps = {
   onDialogChange: (open: boolean) => void;
@@ -25,11 +25,9 @@ export function DragSlider({
   const btnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (!handleRef.current) return;
-
     currentX.current = 0;
 
-    gsap.to(handleRef.current, {
+    animate(handleRef.current, {
       x: 0,
       duration: 0.8,
       ease: "power3.out",
@@ -37,12 +35,12 @@ export function DragSlider({
   }, [resetTrigger]);
 
   useLayoutEffect(() => {
-    gsap.set(btnRef.current, {
+    set(btnRef.current, {
       y: -6,
       boxShadow: `0 6px 0 ${color.dark}`,
     });
 
-    gsap.set(handleRef.current, {
+    set(handleRef.current, {
       x: 0,
     });
   }, [color.dark]);
@@ -72,7 +70,7 @@ export function DragSlider({
 
     currentX.current = nextX;
 
-    gsap.set(handle, {
+    set(handle, {
       x: nextX,
     });
 
@@ -81,13 +79,11 @@ export function DragSlider({
 
       currentX.current = max;
 
-      gsap.to(handle, {
+      animate(handle, {
         x: max,
         duration: 0.12,
         ease: "power2.out",
-        onComplete: () => {
-          onComplete?.();
-        },
+        onComplete,
       });
 
       return;
@@ -153,19 +149,15 @@ export function DragSlider({
             });
           }}
           className="h-12 rounded-md px-4 font-bold text-black"
-          style={{
-            backgroundColor: color.base,
-          }}
+          style={{ backgroundColor: color.base }}
         >
           COMMENT ME
         </button>
       </div>
 
       <div
-        className="text- absolute top-1/2 right-3 z-0 -translate-y-1/2"
-        style={{
-          color: color.base,
-        }}
+        className="absolute top-1/2 right-3 z-0 -translate-y-1/2"
+        style={{ color: color.base }}
       >
         <ArrowBigRightDash />
       </div>

@@ -8,7 +8,7 @@ type ThemeColor = {
 
 interface CustomizerStore {
   color: ThemeColor;
-  leftPanelRef: HTMLDivElement | null;
+  leftPanelElement: HTMLDivElement | null;
 
   setColor: (color: ThemeColor) => void;
   setLeftPanelRef: (ref: HTMLDivElement | null) => void;
@@ -21,9 +21,9 @@ export const useCustomizerStore = create<CustomizerStore>((set) => ({
     dark: "#374151",
   },
 
-  leftPanelRef: null,
+  leftPanelElement: null,
 
   setColor: (color) => set({ color }),
 
-  setLeftPanelRef: (ref) => set({ leftPanelRef: ref }),
+  setLeftPanelRef: (ref) => set({ leftPanelElement: ref }),
 }));

@@ -1,15 +1,20 @@
-import { animate } from "@/shared/utils/animate";
-import gsap from "gsap";
 import { X } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef } from "react";
 
-export function LinkPopup({
-  data,
-  onClose,
-}: {
-  data: { title: string; desc: string; href: string };
+import { animate, set } from "@/shared/utils/gsap";
+
+type LinkData = {
+  title: string;
+  desc: string;
+  href: string;
+};
+
+type LinkPopupProps = {
+  data: LinkData;
   onClose: () => void;
-}) {
+};
+
+export function LinkPopup({ data, onClose }: LinkPopupProps) {
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const goBtnRef = useRef<HTMLAnchorElement>(null);
 
@@ -22,8 +27,7 @@ export function LinkPopup({
   }, [onClose]);
 
   useLayoutEffect(() => {
-    if (!goBtnRef.current) return;
-    gsap.set(goBtnRef.current, {
+    set(goBtnRef.current, {
       boxShadow: "0 5px 0 #7A0C12",
     });
   }, []);
