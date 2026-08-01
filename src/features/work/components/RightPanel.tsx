@@ -86,7 +86,7 @@ function PanelContent() {
   const removedSet = useRef(new Set<number>());
 
   useLayoutEffect(() => {
-    set(containerRef.current.querySelectorAll(".project-btn"), {
+    set(containerRef.current?.querySelectorAll(".project-btn"), {
       boxShadow: "0 8px 0 #101016",
     });
   }, []);
