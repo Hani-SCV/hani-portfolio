@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { PanelsTopLeft } from "lucide-react";
+import { CreditCard, PanelsTopLeft } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
 
 import { animate, set } from "@/shared/utils/gsap";
@@ -38,6 +38,12 @@ const projects = [
     title: "포트폴리오",
     desc: "React, Tailwind CSS, GSAP 기반 인터랙티브 포트폴리오",
     href: "https://github.com/Hani-SCV/hani-portfolio",
+  },
+  {
+    icon: CreditCard,
+    title: "다중 결제 콜백 API",
+    desc: "Toss, Stripe, Alipay 결제 콜백 처리 및 멱등성·동시성 제어",
+    href: "https://github.com/Hani-SCV/payment-callback-assignment",
   },
 ];
 
@@ -128,8 +134,8 @@ function PanelContent() {
           }
         },
       })
-      .animate(el, { rotation: 180, duration: 0.3 })
-      .animate(el, { y: 100, opacity: 0, duration: 0.4 });
+      .to(el, { rotation: 180, duration: 0.3 })
+      .to(el, { y: 100, opacity: 0, duration: 0.4 });
   };
 
   const handleScrewHover = (el: HTMLElement, enter: boolean) => {
@@ -153,27 +159,38 @@ function PanelContent() {
       </div>
 
       <div ref={containerRef} className="grid flex-1 grid-cols-2 gap-4">
-        {projects.map((item) => (
-          <div
-            key={item.title}
-            className="relative aspect-square rounded-xl bg-[#1C1C25]"
-          >
-            <Screws />
-            <button
-              className="project-btn absolute top-1/2 left-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#25252F]"
-              onClick={() => setSelected(item)}
-              onMouseDown={(e) => handleBtn("down", e.currentTarget)}
-              onMouseUp={(e) => handleBtn("up", e.currentTarget)}
-              onMouseEnter={(e) => handleBtn("enter", e.currentTarget)}
-              onMouseLeave={(e) => handleBtn("leave", e.currentTarget)}
+        {projects.map((item) => {
+          return (
+            <div
+              key={item.title}
+              className="relative aspect-square rounded-xl bg-[#1C1C25]"
             >
-              <img
-                src={item.icon}
-                className="absolute top-1/2 left-1/2 w-10 -translate-x-1/2 -translate-y-1/2"
-              />
-            </button>
-          </div>
-        ))}
+              <Screws />
+
+              <button
+                className="project-btn absolute top-1/2 left-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#25252F]"
+                onClick={() => setSelected(item)}
+                onMouseDown={(e) => handleBtn("down", e.currentTarget)}
+                onMouseUp={(e) => handleBtn("up", e.currentTarget)}
+                onMouseEnter={(e) => handleBtn("enter", e.currentTarget)}
+                onMouseLeave={(e) => handleBtn("leave", e.currentTarget)}
+              >
+                {typeof item.icon === "string" ? (
+                  <img
+                    src={item.icon}
+                    className="absolute top-1/2 left-1/2 w-10 -translate-x-1/2 -translate-y-1/2"
+                  />
+                ) : (
+                  <item.icon
+                    size={32}
+                    strokeWidth={1.8}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white"
+                  />
+                )}
+              </button>
+            </div>
+          );
+        })}
       </div>
 
       <div className="relative">
