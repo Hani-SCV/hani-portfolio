@@ -17,6 +17,17 @@ type ToggleListProps = {
   onSelect: (index: number) => void;
 };
 
+type CharacterAreaProps = {
+  selected: number;
+  visualReady: boolean;
+  leftPupilRef: React.RefObject<HTMLDivElement | null>;
+  rightPupilRef: React.RefObject<HTMLDivElement | null>;
+  onLoad: () => void;
+  onMouseMove: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onMouseLeave: () => void;
+  showDialog: boolean;
+};
+
 const BASE_LEFT_X = 3;
 const BASE_RIGHT_X = 3;
 
@@ -59,6 +70,106 @@ function ToggleList({ selected, onSelect }: ToggleListProps) {
   );
 }
 
+function PanelHeader() {
+  const base = useCustomizerStore((s) => s.color.base);
+
+  return (
+    <div className="flex w-full items-center justify-between">
+      <div className="flex items-center gap-2">
+        <BarChart3 className="h-5 w-8" style={{ color: base }} />
+
+        <div className="text-xs font-bold tracking-wider text-[#3A3A3A] uppercase">
+          Hani Dev
+        </div>
+      </div>
+
+      <div className="flex items-center gap-1">
+        <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
+        <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
+        <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
+      </div>
+    </div>
+  );
+}
+
+function CustomizerPanel({ selected, onSelect }: ToggleListProps) {
+  const base = useCustomizerStore((s) => s.color.base);
+
+  return (
+    <div className="bg-panel-dark flex flex-col gap-3 rounded-lg p-3">
+      <div className="mb-2 flex items-center gap-2">
+        <Settings className="h-6 w-6 opacity-40" style={{ color: base }} />
+
+        <div className="text-sm font-semibold whitespace-nowrap text-[#3A3A3A]">
+          Customizer
+        </div>
+      </div>
+
+      <ToggleList selected={selected} onSelect={onSelect} />
+    </div>
+  );
+}
+
+function PanelFooter() {
+  const base = useCustomizerStore((s) => s.color.base);
+
+  return (
+    <div
+      className="mt-auto flex h-12 w-full items-center justify-end rounded-t-lg px-4"
+      style={{ backgroundColor: base }}
+    >
+      <div className="flex gap-1">
+        <div className="h-2 w-2 rounded-full bg-[#BFBFBF]" />
+        <div className="h-2 w-2 rounded-full bg-[#BFBFBF]" />
+      </div>
+    </div>
+  );
+}
+
+function CharacterArea({
+  selected,
+  visualReady,
+  leftPupilRef,
+  rightPupilRef,
+  onLoad,
+  onMouseMove,
+  onMouseLeave,
+  showDialog,
+}: CharacterAreaProps) {
+  const Character = CHARACTERS[selected].component;
+
+  return (
+    <div
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      className="relative flex h-60 items-center justify-center overflow-hidden rounded-xl bg-[#1C1C1C]"
+      style={{
+        backgroundImage: "url('/textures/glass-texture.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div
+        className={`relative z-10 transition-opacity duration-200 ${
+          visualReady ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <Character
+          leftPupilRef={leftPupilRef}
+          rightPupilRef={rightPupilRef}
+          onLoad={onLoad}
+        />
+
+        <div className="animated-grain absolute inset-0 z-10" />
+      </div>
+
+      {showDialog && (
+        <SlideDialog className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2" />
+      )}
+    </div>
+  );
+}
+
 export function LeftPanel() {
   const [selected, setSelected] = useState(0);
   const [showDialog, setShowDialog] = useState(false);
@@ -73,7 +184,6 @@ export function LeftPanel() {
   const leftPupilRef = useRef<HTMLDivElement>(null);
   const rightPupilRef = useRef<HTMLDivElement>(null);
 
-  const { base } = useCustomizerStore((s) => s.color);
   const setLeftPanelRef = useCustomizerStore((s) => s.setLeftPanelRef);
 
   useEffect(() => {
@@ -154,60 +264,26 @@ export function LeftPanel() {
     setSliderResetTrigger((prev) => prev + 1);
   };
 
-  const Character = CHARACTERS[selected].component;
-
   return (
     <>
       <div
         ref={ref}
         className="flex flex-col gap-4 rounded-2xl bg-[#D9D9D9] p-4 pb-0"
       >
-        <div className="flex w-full items-center justify-between">
-          <div className="flex items-center gap-2">
-            <BarChart3 className="h-5 w-8" style={{ color: base }} />
-
-            <div className="text-xs font-bold tracking-wider text-[#3A3A3A] uppercase">
-              Hani Dev
-            </div>
-          </div>
-
-          <div className="flex items-center gap-1">
-            <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
-            <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
-            <div className="h-1.5 w-1.5 rounded-full bg-[#2F3E77]" />
-          </div>
-        </div>
+        <PanelHeader />
 
         <div className="mt-0.5 h-0.5 w-full bg-[#2F3E77]" />
 
-        <div
+        <CharacterArea
+          selected={selected}
+          visualReady={visualReady}
+          leftPupilRef={leftPupilRef}
+          rightPupilRef={rightPupilRef}
+          onLoad={handleCharacterLoad}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="relative flex h-60 items-center justify-center overflow-hidden rounded-xl bg-[#1C1C1C]"
-          style={{
-            backgroundImage: "url('/textures/glass-texture.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <div
-            className={`relative z-10 transition-opacity duration-200 ${
-              visualReady ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Character
-              leftPupilRef={leftPupilRef}
-              rightPupilRef={rightPupilRef}
-              onLoad={handleCharacterLoad}
-            />
-
-            <div className="animated-grain absolute inset-0 z-10" />
-          </div>
-
-          {showDialog && (
-            <SlideDialog className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2" />
-          )}
-        </div>
+          showDialog={showDialog}
+        />
 
         <div className="bg-panel-dark rounded-lg px-3 py-3">
           <DragSlider
@@ -217,27 +293,9 @@ export function LeftPanel() {
           />
         </div>
 
-        <div className="bg-panel-dark flex flex-col gap-3 rounded-lg p-3">
-          <div className="mb-2 flex items-center gap-2">
-            <Settings className="h-6 w-6 opacity-40" style={{ color: base }} />
+        <CustomizerPanel selected={selected} onSelect={setSelected} />
 
-            <div className="text-sm font-semibold whitespace-nowrap text-[#3A3A3A]">
-              Customizer
-            </div>
-          </div>
-
-          <ToggleList selected={selected} onSelect={setSelected} />
-        </div>
-
-        <div
-          className="mt-auto flex h-12 w-full items-center justify-end rounded-t-lg px-4"
-          style={{ backgroundColor: base }}
-        >
-          <div className="flex gap-1">
-            <div className="h-2 w-2 rounded-full bg-[#BFBFBF]" />
-            <div className="h-2 w-2 rounded-full bg-[#BFBFBF]" />
-          </div>
-        </div>
+        <PanelFooter />
       </div>
 
       <ContactPopup open={openContact} onClose={handleClosePopup} />
