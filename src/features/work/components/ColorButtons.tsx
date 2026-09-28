@@ -33,11 +33,7 @@ function RoundButton({ name, base, dark }: RoundButtonProps) {
   };
 
   const handleClick = () => {
-    setColor({
-      name,
-      base,
-      dark,
-    });
+    setColor({ name, base, dark });
 
     if (leftPanelElement) {
       gsap.killTweensOf(leftPanelElement);
