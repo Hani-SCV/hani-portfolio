@@ -164,7 +164,7 @@ export function IntroDevice({ onComplete }: Props) {
                   </h1>
 
                   <div ref={descRef} className="text-[0.7vw] font-bold">
-                    웹 백엔드 개발자 김하니입니다. 저의 포트폴리오를 찾아주셔서
+                    개발자 김하니입니다. 저의 포트폴리오를 찾아주셔서
                     감사합니다.
                   </div>
                 </div>

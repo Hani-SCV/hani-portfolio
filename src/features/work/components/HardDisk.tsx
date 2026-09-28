@@ -3,14 +3,16 @@ import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
 type Props = {
   leftPupilRef?: React.RefObject<HTMLDivElement | null>;
   rightPupilRef?: React.RefObject<HTMLDivElement | null>;
+  onLoad?: () => void;
 };
 
-export function HardDisk({ leftPupilRef, rightPupilRef }: Props) {
+export function HardDisk({ leftPupilRef, rightPupilRef, onLoad }: Props) {
   const colorName = useCustomizerStore((s) => s.color.name);
   return (
     <>
       <img
         src={`/characters/hardDisk/hardDisk-${colorName}.png`}
+        onLoad={onLoad}
         className="h-full w-full object-contain"
       />
 
