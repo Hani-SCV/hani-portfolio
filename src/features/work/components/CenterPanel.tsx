@@ -13,54 +13,61 @@ type GithubCardProps = {
   onClick: () => void;
 };
 
-const CAREER_SECTIONS = [
+type CareerSection = {
+  title: string;
+  subtitle: string;
+  description: string;
+  stack: string;
+};
+
+const CAREER_SECTIONS: CareerSection[] = [
   {
     title: "CAREER",
     subtitle: "Backend Developer",
     description: "㈜ 시큐어키 · 기술연구소 · 주임",
-    period: "2022.11 — 2026.04 · 3년 6개월",
+    stack: "2022.11 — 2026.04 · 3년 6개월",
   },
   {
     title: "SPRING BOOT",
     subtitle: "레거시 시스템 마이그레이션",
     description:
       "Java 8, Servlet, iBATIS 기반 레거시 백엔드를 Java 25와 Spring Boot 기반으로 전환하고 REST API를 설계·구현했습니다.",
-    period: "Java 25 · Spring Boot 4 · JPA · QueryDSL · Spring Security",
+    stack: "Java 25 · Spring Boot 4 · JPA · QueryDSL · Spring Security",
   },
   {
     title: "REACT",
     subtitle: "프론트엔드 마이그레이션",
     description:
       "Vanilla JavaScript 기반 프론트엔드를 React + TypeScript로 전환하고 FSD, Zustand, React Router 기반의 컴포넌트 구조를 설계했습니다.",
-    period: "React · TypeScript · Vite · Zustand · FSD",
+    stack: "React · TypeScript · Vite · Zustand · FSD",
   },
   {
     title: "COMMON VERSION",
     subtitle: "공용 버전 서비스 개발",
     description:
       "공용 버전의 기능 개발과 릴리즈 전 과정을 담당하고, 레거시 코드 리팩토링과 API 구조 개선 및 운영 장애·보안 이슈에 대응했습니다.",
-    period: "6.10.6 — 6.19.0 · 기능 개발 · 리팩토링 · 운영",
+    stack: "6.10.6 — 6.19.0 · 기능 개발 · 리팩토링 · 운영",
   },
   {
     title: "SFTP",
     subtitle: "웹 기반 파일 관리 기능",
     description:
       "Java SSHJ를 활용해 파일·디렉터리 조회 및 관리, 권한 변경, 업로드·다운로드, 다중 파일 처리와 SFTP 세션 관리 기능을 개발했습니다.",
-    period: "Java · Spring Boot · SSHJ · REST API",
+    stack: "Java · Spring Boot · SSHJ · REST API",
   },
   {
     title: "CUSTOMIZATION",
     subtitle: "고객사 프로젝트",
     description:
       "국내·해외 통신사 및 금융권 고객사의 요구사항을 분석하고 개발 미팅부터 기능 개발, 제품 커스터마이징 및 운영 이슈 대응까지 수행했습니다.",
-    period: "요구사항 분석 · 기능 개발 · 유지보수",
+    stack: "요구사항 분석 · 기능 개발 · 유지보수",
   },
   {
     title: "DEVOPS",
     subtitle: "개발·배포 프로세스 개선",
     description:
       "GitLab CI/CD 기반 배포 자동화와 MR 코드 리뷰 프로세스를 구축하고, Commit/MR Template 및 코드 품질 검증 환경을 적용했습니다.",
-    period: "GitLab CI/CD · Git Flow · ESLint · Prettier · Lefthook",
+    stack: "GitLab CI/CD · Git Flow · ESLint · Prettier · Lefthook",
   },
 ];
 
@@ -229,7 +236,7 @@ function GithubCard({ onClick }: GithubCardProps) {
     set(btnRef.current, {
       boxShadow: "0 6px 0 #7A0C12",
     });
-  }, [btnRef]);
+  }, []);
 
   return (
     <>
@@ -299,7 +306,7 @@ function CareerContent({ index }: { index: number }) {
         </p>
 
         <div className="border-t border-white/10 pt-4 text-sm text-gray-500">
-          {section.period}
+          {section.stack}
         </div>
       </div>
     </div>
