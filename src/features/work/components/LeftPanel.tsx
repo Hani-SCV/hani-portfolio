@@ -65,6 +65,10 @@ export function LeftPanel() {
   const [openContact, setOpenContact] = useState(false);
   const [sliderResetTrigger, setSliderResetTrigger] = useState(0);
 
+  const [loaded, setLoaded] = useState({ texture: false, character: false });
+
+  const visualReady = loaded.texture && loaded.character;
+
   const ref = useRef<HTMLDivElement>(null);
   const leftPupilRef = useRef<HTMLDivElement>(null);
   const rightPupilRef = useRef<HTMLDivElement>(null);
@@ -83,6 +87,34 @@ export function LeftPanel() {
       { opacity: 1, y: 0, duration: 0.5 },
     );
   }, []);
+
+  useEffect(() => {
+    const texture = new Image();
+
+    texture.src = "/textures/glass-texture.jpg";
+
+    texture.onload = () => {
+      setLoaded((prev) => ({
+        ...prev,
+        texture: true,
+      }));
+    };
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLoaded((prev) => ({
+      ...prev,
+      character: false,
+    }));
+  }, [selected]);
+
+  const handleCharacterLoad = () => {
+    setLoaded((prev) => ({
+      ...prev,
+      character: true,
+    }));
+  };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -152,16 +184,21 @@ export function LeftPanel() {
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           className="relative flex h-60 items-center justify-center overflow-hidden rounded-xl bg-[#1C1C1C]"
+          style={{
+            backgroundImage: "url('/textures/glass-texture.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         >
-          <img
-            src="/textures/glass-texture.jpg"
-            className="absolute inset-0 h-full w-full object-cover opacity-50"
-          />
-
-          <div className="relative z-10">
+          <div
+            className={`relative z-10 transition-opacity duration-200 ${
+              visualReady ? "opacity-100" : "opacity-0"
+            }`}
+          >
             <Character
               leftPupilRef={leftPupilRef}
               rightPupilRef={rightPupilRef}
+              onLoad={handleCharacterLoad}
             />
 
             <div className="animated-grain absolute inset-0 z-10" />

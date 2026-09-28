@@ -3,14 +3,16 @@ import { useCustomizerStore } from "@/features/work/stores/useCustomizerStore";
 type Props = {
   leftPupilRef?: React.RefObject<HTMLDivElement | null>;
   rightPupilRef?: React.RefObject<HTMLDivElement | null>;
+  onLoad?: () => void;
 };
 
-export function Console({ leftPupilRef, rightPupilRef }: Props) {
+export function Console({ leftPupilRef, rightPupilRef, onLoad }: Props) {
   const colorName = useCustomizerStore((s) => s.color.name);
   return (
     <>
       <img
         src={`/characters/console/console-${colorName}.png`}
+        onLoad={onLoad}
         className="h-full w-full object-contain"
       />
 
